@@ -1,7 +1,7 @@
 module("dependencies and initialization checking",{
 	setup: function() {
 		$('<div></div>',{
-			'id' : 'swfupload-init'
+			'id' : 'swfupload'
 		}).appendTo('#qunit-fixture')		
 	}
 });
@@ -12,7 +12,7 @@ test("check if all dependencies is loading", function() {
     var swfupload = new SWFUpload({
         upload_url: "somehurl",
         flash_url: "swfupload.swf",
-		button_placeholder_id : "swfupload-init", 
+		button_placeholder_id : "swfupload", 
         file_size_limit: "20 MB"
     });
 	
@@ -20,7 +20,13 @@ test("check if all dependencies is loading", function() {
 	
 });
 
-module("core tests");
+module("core tests",{
+	setup: function() {
+		$('<div></div>',{
+			'id' : 'jquery-ui-pload'
+		}).appendTo('#qunit-fixture');		
+	}
+});
 
 test("plugin started", function(){
 	
@@ -29,5 +35,7 @@ test("plugin started", function(){
 });
 
 test('the target selector contains a flash instance', function(){
-	
+	var container = '#jquery-ui-pload';
+	$(container).pload();
+	ok($('object').length,"there's a flash object inside de component");
 });
