@@ -16,17 +16,41 @@
 $.widget( "ui.pload", {
 	options: {
 		url: '/upload/',
-		flashUrl: 'swfupload.js',
-		fileSize: "20 MB" 
+		flashUrl: 'libs/swfupload.js',
+		fileSize: "20 MB",
+		buttonImageUrl: 'http://localhost/jquery-ui-pload/btn-pload-select.png',
+		buttonText: 'select file(s)',
+		width: 178,
+		height: 30,
+		style: null,
+		multiple: true,
+		debug: false
 	},
+	swfu: null,
 	_create: function() {
+		var el = $(this.element);
+		el.append('<div id="jquery-ui-pload-flash-button"></div>');
 		var swfOptions = {
 	        upload_url: this.options.url,
 	        flash_url: this.options.flashUrl,
-	        button_placeholder_id: $(this.element).attr('id'),
-	        file_size_limit: this.options.fileSize
+			button_placeholder_id: 'jquery-ui-pload-flash-button',
+			button_text : this.options.buttonText,
+			button_text_style : this.options.style, 
+			file_types : "*.jpg;*.gif",
+			file_types_description: 'choose file(s)',
+			button_action : this.options.multiple ? SWFUpload.BUTTON_ACTION.SELECT_FILES : SWFUpload.BUTTON_ACTION.SELECT_FILES, 
+	        file_size_limit: this.options.fileSize,
+			button_width : this.options.width,
+			button_height : this.options.height,
+			button_image_url : this.options.buttonImageUrl,
+			file_upload_limit : 10,
+			file_queue_limit : 2,
+			debug : this.options.debug
 		};
-        var swfu = new SWFUpload(swfOptions);
+        this.swfu = new SWFUpload(swfOptions);
+	},
+	getInstance: function() {
+		return this.swfu;
 	}
 
 });

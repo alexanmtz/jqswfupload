@@ -37,5 +37,13 @@ test("plugin started", function(){
 test('the target selector contains a flash instance', function(){
 	var container = '#jquery-ui-pload';
 	$(container).pload();
-	ok($('object').length,"there's a flash object inside de component");
+	ok($('object',container).length,"there's a flash object inside de component");
+	ok(SWFUpload.movieCount > 0 ,"there's a movies started");
+});
+
+test('get the swfupload instance', function() {
+ 	var el = $('#jquery-ui-pload');
+	el.pload();
+	var instance = el.pload('getInstance');
+	equals(instance.getSetting('button_placeholder_id'), 'jquery-ui-pload-flash-button', 'obteu a instancia atual');
 });
