@@ -14,19 +14,19 @@
  */
 (function( $, undefined ) {
 $.widget( "ui.pload", {
+	swfu: null,
 	options: {
 		url: '/upload/',
 		flashUrl: 'libs/swfupload.js',
 		fileSize: "20 MB",
-		buttonImageUrl: 'http://localhost/jquery-ui-pload/btn-pload-select.png',
-		buttonText: 'select file(s)',
-		width: 178,
-		height: 30,
-		style: null,
+		buttonImageUrl: 'http://r9.room9.co.nz/swfupload/images/upload_button.png',
+		buttonText: '<span class="text">Hello</span>',
+		buttonWidth: 178,
+		buttonHeight: 30,
+		style: '.text {color: black; font-size: 16pt;}',
 		multiple: true,
 		debug: false
 	},
-	swfu: null,
 	_create: function() {
 		var el = $(this.element);
 		el.append('<div id="jquery-ui-pload-flash-button"></div>');
@@ -40,8 +40,8 @@ $.widget( "ui.pload", {
 			file_types_description: 'choose file(s)',
 			button_action : this.options.multiple ? SWFUpload.BUTTON_ACTION.SELECT_FILES : SWFUpload.BUTTON_ACTION.SELECT_FILES, 
 	        file_size_limit: this.options.fileSize,
-			button_width : this.options.width,
-			button_height : this.options.height,
+			button_width : this.options.buttonWidth,
+			button_height : this.options.buttonHeight,
 			button_image_url : this.options.buttonImageUrl,
 			file_upload_limit : 10,
 			file_queue_limit : 2,
