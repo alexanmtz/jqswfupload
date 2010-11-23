@@ -15,7 +15,6 @@ test("check if all dependencies is loading", function() {
 		button_placeholder_id : "swfupload", 
         file_size_limit: "20 MB"
     });
-	
 	equals(typeof swfupload,'object', 'swfupload loaded');
 	
 });
@@ -39,6 +38,16 @@ test('the target selector contains a flash instance', function(){
 	$(container).pload();
 	ok($('object',container).length,"there's a flash object inside de component");
 	ok(SWFUpload.movieCount > 0 ,"there's a movies started");
+});
+
+test('swfupload loaded', function(){
+	expect(1);
+	$('#jquery-ui-pload').pload({
+		loaded: function() {
+			ok(true, 'swfupload loaded');
+		}
+	});
+	
 });
 
 test('get the swfupload instance', function() {
