@@ -65,6 +65,19 @@ test('get the swfupload instance', function() {
 	equals(instance.getSetting('button_placeholder_id'), 'jquery-ui-pload-flash-button', 'obteu a instancia atual');
 });
 
+test('dialog start handler', function() {
+	expect(1);
+	$('#jquery-ui-pload').pload({
+		fileDialogStart: function() {
+			ok(true, 'open file dialog');
+		}
+	});
+	$('#jquery-ui-pload object').trigger('click');
+	
+});
 
+test('file queued', function(){
+	
+});
 
 

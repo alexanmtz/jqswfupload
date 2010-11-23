@@ -23,6 +23,7 @@ $.widget( "ui.pload", {
 		buttonText: '<span class="text">Hello</span>',
 		buttonWidth: 178,
 		buttonHeight: 30,
+		buttonTextTopPadding: 5, 
 		style: '.text {color: black; font-weight: bold; font-size: 16pt; text-align:center;margin-top:15px;}',
 		multiple: true,
 		fileTypes: "*.*",
@@ -30,6 +31,7 @@ $.widget( "ui.pload", {
 		fileUploadLimit: 10,
 		fileQueueLimit: 2,
 		flashLoaded: function(){},
+		fileDialogStart: function(){},
 		debug: false
 	},
 	_create: function() {
@@ -41,6 +43,7 @@ $.widget( "ui.pload", {
 			button_placeholder_id: 'jquery-ui-pload-flash-button',
 			button_text : this.options.buttonText,
 			button_text_style : this.options.style, 
+			button_text_top_padding: this.options.buttonTextTopPadding,
 			file_types : this.options.fileType,
 			file_types_description: this.options.fileTypeDescription,
 			button_action : this.options.multiple ? SWFUpload.BUTTON_ACTION.SELECT_FILES : SWFUpload.BUTTON_ACTION.SELECT_FILES, 
@@ -51,6 +54,7 @@ $.widget( "ui.pload", {
 			file_upload_limit : this.options.fileUploadLimit,
 			file_queue_limit : this.options.fileQueueLimit,
 			swfupload_loaded_handler : this.options.flashLoaded.call(this),
+			file_dialog_start_handler : this.options.fileDialogStart.call(this),
 			debug : this.options.debug
 		};
         this.swfu = new SWFUpload(swfOptions);
