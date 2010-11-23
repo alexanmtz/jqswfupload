@@ -2,7 +2,11 @@ module("dependencies and initialization checking",{
 	setup: function() {
 		$('<div></div>',{
 			'id' : 'swfupload'
-		}).appendTo('#qunit-fixture')		
+		}).appendTo('#qunit-fixture');
+		$('input',{
+			'type' : 'file',
+			'name' : 'Filedata'
+		}).appendTo('#swfupload');	
 	}
 });
 
@@ -23,7 +27,11 @@ module("core tests",{
 	setup: function() {
 		$('<div></div>',{
 			'id' : 'jquery-ui-pload'
-		}).appendTo('#qunit-fixture');		
+		}).appendTo('#qunit-fixture');
+		$('input',{
+			'type' : 'file',
+			'name' : 'Filedata'
+		}).appendTo('#swfupload');			
 	}
 });
 
@@ -43,7 +51,7 @@ test('the target selector contains a flash instance', function(){
 test('swfupload loaded', function(){
 	expect(1);
 	$('#jquery-ui-pload').pload({
-		loaded: function() {
+		flashLoaded: function() {
 			ok(true, 'swfupload loaded');
 		}
 	});
@@ -56,3 +64,7 @@ test('get the swfupload instance', function() {
 	var instance = el.pload('getInstance');
 	equals(instance.getSetting('button_placeholder_id'), 'jquery-ui-pload-flash-button', 'obteu a instancia atual');
 });
+
+
+
+

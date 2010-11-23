@@ -19,17 +19,17 @@ $.widget( "ui.pload", {
 		url: '/upload/',
 		flashUrl: 'libs/swfupload.swf',
 		fileSize: "20 MB",
-		buttonImageUrl: 'http://r9.room9.co.nz/swfupload/images/upload_button.png',
+		buttonImageUrl: 'btn-pload-select.png',
 		buttonText: '<span class="text">Hello</span>',
 		buttonWidth: 178,
 		buttonHeight: 30,
-		style: '.text {color: black; font-size: 16pt;}',
+		style: '.text {color: black; font-weight: bold; font-size: 16pt; text-align:center;margin-top:15px;}',
 		multiple: true,
 		fileTypes: "*.*",
 		fileTypesDescription: 'choose file(s)',
 		fileUploadLimit: 10,
 		fileQueueLimit: 2,
-		loaded: function(){},
+		flashLoaded: function(){},
 		debug: false
 	},
 	_create: function() {
@@ -50,7 +50,7 @@ $.widget( "ui.pload", {
 			button_image_url : this.options.buttonImageUrl,
 			file_upload_limit : this.options.fileUploadLimit,
 			file_queue_limit : this.options.fileQueueLimit,
-			swfupload_loaded_handler : this.options.loaded.call(this),
+			swfupload_loaded_handler : this.options.flashLoaded.call(this),
 			debug : this.options.debug
 		};
         this.swfu = new SWFUpload(swfOptions);
