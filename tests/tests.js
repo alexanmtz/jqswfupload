@@ -73,10 +73,28 @@ test('dialog start handler', function() {
 		}
 	});
 	$('#jquery-ui-pload object').trigger('click');
-	
 });
 
 test('file queued', function(){
+    expect(1);
+	$('#jquery-ui-pload').pload({
+		fileDialogComplete: function(fselected) {
+			ok(fselected, 'one file enter in the queue');
+		},
+		fileQueueError: function(file,error,msg) {
+			console.info(file);
+		}
+	});
+	$('#jquery-ui-pload').pload('getInstance').queueEvent("file_queued_handler", {
+		id: 'bla',
+		index: 1,
+		name: 'file',
+		size: '222',
+		type: 'string',
+		creationdate: '22/11/1111',
+		modificationdate: '22/22/2222',
+		filestatus: 200
+	});
 	
 });
 

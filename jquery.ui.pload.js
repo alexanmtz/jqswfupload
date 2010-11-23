@@ -32,6 +32,9 @@ $.widget( "ui.pload", {
 		fileQueueLimit: 2,
 		flashLoaded: function(){},
 		fileDialogStart: function(){},
+		fileQueue: function() {},
+		fileQueueError: function() {},
+		fileDialogComplete: function(){},
 		debug: false
 	},
 	_create: function() {
@@ -55,6 +58,9 @@ $.widget( "ui.pload", {
 			file_queue_limit : this.options.fileQueueLimit,
 			swfupload_loaded_handler : this.options.flashLoaded.call(this),
 			file_dialog_start_handler : this.options.fileDialogStart.call(this),
+			file_queue_handler : this.options.fileQueue.call(this),
+			file_queue_error_handler: this.options.fileQueueError.call(this),
+			file_dialog_complete_handler : this.options.fileDialogComplete.call(this),
 			debug : this.options.debug
 		};
         this.swfu = new SWFUpload(swfOptions);
