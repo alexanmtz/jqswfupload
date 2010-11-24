@@ -23,6 +23,19 @@ test("check if all dependencies is loading", function() {
 	
 });
 
+test("force upload start without file", function() {
+	ok($.ui.progressbar, 'progres bar ok');
+	ok($.ui.button, 'button ok');
+    var swfupload = new SWFUpload({
+        upload_url: "somehurl",
+        flash_url: "swfupload.swf",
+		button_placeholder_id : "swfupload", 
+        file_size_limit: "20 MB",
+    });
+	equals(typeof swfupload,'object', 'swfupload loaded');
+	
+});
+
 module("core tests",{
 	setup: function() {
 		$('<div></div>',{
@@ -72,30 +85,22 @@ test('dialog start handler', function() {
 			ok(true, 'open file dialog');
 		}
 	});
-	$('#jquery-ui-pload object').trigger('click');
+	//$('#jquery-ui-pload object').trigger('click');
 });
 
-test('file queued', function(){
+/*
+test('Upload started without any file', function(){
     expect(1);
 	$('#jquery-ui-pload').pload({
 		fileDialogComplete: function(fselected) {
 			ok(fselected, 'one file enter in the queue');
 		},
-		fileQueueError: function(file,error,msg) {
-			console.info(file);
+		uploadError: function(file,error,msg) {
+			alert(error);
 		}
 	});
-	$('#jquery-ui-pload').pload('getInstance').queueEvent("file_queued_handler", {
-		id: 'bla',
-		index: 1,
-		name: 'file',
-		size: '222',
-		type: 'string',
-		creationdate: '22/11/1111',
-		modificationdate: '22/22/2222',
-		filestatus: 200
-	});
-	
+	$('#jquery-ui-pload').pload('getInstance').callFlash("startUpload", 'bla');
 });
+*/
 
 

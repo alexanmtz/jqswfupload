@@ -13,11 +13,24 @@
 	<script type="text/javascript" src="jquery.ui.pload.js"></script>
 	<script type="text/javascript">
 		$(function(){
-			$('#jquery-ui-pload').pload({
+			var uploadContainer = $('#jquery-ui-pload');
+			uploadContainer.pload({
 				debug: true,
+				fileDialogStart: function() {
+					alert('iniciou');
+				},
+				fileDialogComplete: function(x,y,z) {
+					alert(x);
+				},
+				uploadError: function(file, error, msg) {
+					alert(error);
+				}
 			});
 			
-			
+			$('#start-upload').bind('click',function(){
+				uploadContainer.pload('startUpload');
+				return false;
+			});
 			
 		});
 	</script>
@@ -26,5 +39,6 @@
 <body>
 	<h2>demo page</h2>
 	<div id="jquery-ui-pload"></div>
+	<a href="#" id="start-upload">start upload</a>
 </body>
 </html>

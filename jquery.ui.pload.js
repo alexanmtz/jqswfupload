@@ -31,10 +31,11 @@ $.widget( "ui.pload", {
 		fileUploadLimit: 10,
 		fileQueueLimit: 2,
 		flashLoaded: function(){},
-		fileDialogStart: function(){},
+		fileDialogStart: function() {},
 		fileQueue: function() {},
 		fileQueueError: function() {},
 		fileDialogComplete: function(){},
+		uploadError: function() {},
 		debug: false
 	},
 	_create: function() {
@@ -57,13 +58,27 @@ $.widget( "ui.pload", {
 			file_upload_limit : this.options.fileUploadLimit,
 			file_queue_limit : this.options.fileQueueLimit,
 			swfupload_loaded_handler : this.options.flashLoaded.call(this),
-			file_dialog_start_handler : this.options.fileDialogStart.call(this),
+			file_dialog_start_handler : this.fileDialogStart,
 			file_queue_handler : this.options.fileQueue.call(this),
 			file_queue_error_handler: this.options.fileQueueError.call(this),
-			file_dialog_complete_handler : this.options.fileDialogComplete.call(this),
+			file_dialog_complete_handler : this.fileDialogComplete,
+			upload_error_handler: this.uploadError,
 			debug : this.options.debug
 		};
         this.swfu = new SWFUpload(swfOptions);
+	},
+	fileDialogStart: function() {
+		console.info(this.options);
+		this.options.fileDialogStart.call(this);
+	},
+	fileDialogComplete: function(selected, queued, total) {
+		this.options.fileDialogComplete.call(this, selected, queued, total);
+	},
+	uploadError: function(file, error, msg) {
+		this.options.uploadError.call(this,file,error,msg);
+	},
+	startUpload: function() {
+		this.swfu.startUpload();
 	},
 	getInstance: function() {
 		return this.swfu;
