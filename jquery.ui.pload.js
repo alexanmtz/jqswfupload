@@ -40,6 +40,8 @@ $.widget( "ui.pload", {
 	},
 	_create: function() {
 		var el = $(this.element);
+		var self = this;
+		var op = self.options;
 		el.append('<div id="jquery-ui-pload-flash-button"></div>');
 		var swfOptions = {
 	        upload_url: this.options.url,
@@ -57,28 +59,27 @@ $.widget( "ui.pload", {
 			button_image_url : this.options.buttonImageUrl,
 			file_upload_limit : this.options.fileUploadLimit,
 			file_queue_limit : this.options.fileQueueLimit,
-			swfupload_loaded_handler : this.options.flashLoaded.call(this),
-			file_dialog_start_handler : this.fileDialogStart,
-			file_queue_handler : this.options.fileQueue.call(this),
-			file_queue_error_handler: this.options.fileQueueError.call(this),
-			file_dialog_complete_handler : this.fileDialogComplete,
-			upload_error_handler: this.uploadError,
+			swfupload_loaded_handler : function() {
+				op.flashLoaded.call(this);
+			},
+			file_dialog_start_handler : function() {
+				op.fileDialogStart.call(this);		
+			},
+			file_queue_handler : function(file) {
+				op.fileQueue.call(this, file);
+			},
+			file_queue_error_handler: function(file, error, msg) {
+				op.fileQueueError.call(this, file, error, msg);
+			},
+			file_dialog_complete_handler : function(selected, queued, total){
+				op.fileDialogComplete.call(this, selected, queued, total);
+			},
+			upload_error_handler: function(file, error, msg) {
+				op.uploadError.call(this, file, error, msg);
+			},
 			debug : this.options.debug
 		};
         this.swfu = new SWFUpload(swfOptions);
-	},
-	fileDialogStart: function() {
-		console.info(this.options);
-		this.options.fileDialogStart.call(this);
-	},
-	fileDialogComplete: function(selected, queued, total) {
-		this.options.fileDialogComplete.call(this, selected, queued, total);
-	},
-	uploadError: function(file, error, msg) {
-		this.options.uploadError.call(this,file,error,msg);
-	},
-	startUpload: function() {
-		this.swfu.startUpload();
 	},
 	getInstance: function() {
 		return this.swfu;

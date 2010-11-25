@@ -15,16 +15,7 @@
 		$(function(){
 			var uploadContainer = $('#jquery-ui-pload');
 			uploadContainer.pload({
-				debug: true,
-				fileDialogStart: function() {
-					alert('iniciou');
-				},
-				fileDialogComplete: function(x,y,z) {
-					alert(x);
-				},
-				uploadError: function(file, error, msg) {
-					alert(error);
-				}
+				debug: true
 			});
 			
 			$('#start-upload').bind('click',function(){

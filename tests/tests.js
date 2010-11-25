@@ -68,7 +68,6 @@ test('swfupload loaded', function(){
 			ok(true, 'swfupload loaded');
 		}
 	});
-	
 });
 
 test('get the swfupload instance', function() {
