@@ -39,15 +39,14 @@ $.widget( "ui.pload", {
 	},
 	concatTypes: function(types) {
 		if(typeof types == 'string') {
-			return '*.*';	
+			return types;	
 		} else {
 			var typesCont = '';
 			$.each(types, function(i, value){
-				typesCont+= types[i].fileTypes + ', '; 
+				typesCont+= types[i].fileTypes + '; '; 
 			});
 			return typesCont.substring(0, typesCont.length-2);
 		}
-		
 	},
 	_create: function() {
 		var el = $(this.element);
@@ -68,7 +67,7 @@ $.widget( "ui.pload", {
 			button_height : op.buttonHeight,
 			file_upload_limit : 10,
 			file_queue_limit : 10,
-			file_types : self.concatTypes(op.files),
+			file_types : self.concatTypes(op.files), 
 			file_types_description : op.fileTypesDescription, 
 			button_image_url : op.buttonImageUrl,
 			swfupload_loaded_handler : function() {
@@ -77,18 +76,24 @@ $.widget( "ui.pload", {
 			file_dialog_start_handler : function() {
 				op.fileDialogStart.call(this);		
 			},
-			file_queue_handler : function(file) {
+			file_queued_handler : function(file) {
+				console.info(file);
 				op.fileQueue.call(this, file);
 			},
 			file_queue_error_handler: function(file, error, msg) {
+				console.debug(file);
 				op.fileQueueError.call(this, file, error, msg);
 			},
 			file_dialog_complete_handler : function(selected, queued, total){
 				self.selected += selected;
 				if(selected) {
 					$('.ui-widget-header').remove();
-					var header = $('<div class="ui-widget-header"><span class="ui-pload-selected">' + self.selected + '</span> / <span class="ui-pload-limit">' + op.fileUploadLimit  + '</span></div>');
+					var files = op.files;
+					var header = $('<div class="ui-widget-header"></div>');
 					$(header).appendTo(el);
+					$.each(files,function(i,value){
+						$('<h3>'+i+'</h3><span class="ui-pload-selected"></span> / <span class="ui-pload-limit">'+ files[i].limit +'</span>').appendTo('.ui-widget-header');						
+					});
 				}
 				op.fileDialogComplete.call(this, selected, queued, total);
 			},

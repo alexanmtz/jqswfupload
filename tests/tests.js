@@ -114,7 +114,7 @@ test('get all the filetypes groups and mixing in one', function() {
 	
 	result = el.pload('concatTypes',{
 		'image' : {
-			'fileTypes' : '*.jpeg, *.png',
+			'fileTypes' : '*.jpeg; *.png',
 			'limit' : 10
 		},
 		'video' : {
@@ -122,6 +122,6 @@ test('get all the filetypes groups and mixing in one', function() {
 			'limit' : 1
 		}
 	});
-	equal(result, '*.jpeg, *.png, *.mov', 'the file types concat');
+	equal(result, '*.jpeg; *.png; *.mov', 'the file types concat');
 	
 });
