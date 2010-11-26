@@ -15,6 +15,7 @@
 (function( $, undefined ) {
 $.widget( "ui.pload", {
 	swfu: null,
+	selected: 0,
 	options: {
 		url: '/upload/',
 		flashUrl: 'libs/swfupload.swf',
@@ -26,10 +27,8 @@ $.widget( "ui.pload", {
 		buttonTextTopPadding: 5, 
 		style: '.text {color: black; font-weight: bold; font-size: 16pt; text-align:center;margin-top:15px;}',
 		multiple: true,
-		fileTypes: "*.*",
+		files: "*.*",
 		fileTypesDescription: 'choose file(s)',
-		fileUploadLimit: 10,
-		fileQueueLimit: 2,
 		flashLoaded: function(){},
 		fileDialogStart: function() {},
 		fileQueue: function() {},
@@ -38,27 +37,29 @@ $.widget( "ui.pload", {
 		uploadError: function() {},
 		debug: false
 	},
+	concatTypes: function(types) {
+		return;
+	},
 	_create: function() {
 		var el = $(this.element);
 		var self = this;
 		var op = self.options;
 		el.append('<div id="jquery-ui-pload-flash-button"></div>');
+		el.addClass('ui-widget ui-pload');
 		var swfOptions = {
-	        upload_url: this.options.url,
-	        flash_url: this.options.flashUrl,
+	        upload_url: op.url,
+	        flash_url: op.flashUrl,
 			button_placeholder_id: 'jquery-ui-pload-flash-button',
-			button_text : this.options.buttonText,
-			button_text_style : this.options.style, 
-			button_text_top_padding: this.options.buttonTextTopPadding,
-			file_types : this.options.fileType,
-			file_types_description: this.options.fileTypeDescription,
-			button_action : this.options.multiple ? SWFUpload.BUTTON_ACTION.SELECT_FILES : SWFUpload.BUTTON_ACTION.SELECT_FILES, 
-	        file_size_limit: this.options.fileSize,
-			button_width : this.options.buttonWidth,
-			button_height : this.options.buttonHeight,
-			button_image_url : this.options.buttonImageUrl,
-			file_upload_limit : this.options.fileUploadLimit,
-			file_queue_limit : this.options.fileQueueLimit,
+			button_text : op.buttonText,
+			button_text_style : op.style, 
+			button_text_top_padding: op.buttonTextTopPadding,
+			button_action : op.multiple ? SWFUpload.BUTTON_ACTION.SELECT_FILES : SWFUpload.BUTTON_ACTION.SELECT_FILES, 
+	        file_size_limit: op.fileSize,
+			button_width : op.buttonWidth,
+			button_height : op.buttonHeight,
+			file_upload_limit : 10,
+			file_queue_limit : 10, 
+			button_image_url : op.buttonImageUrl,
 			swfupload_loaded_handler : function() {
 				op.flashLoaded.call(this);
 			},
@@ -72,14 +73,22 @@ $.widget( "ui.pload", {
 				op.fileQueueError.call(this, file, error, msg);
 			},
 			file_dialog_complete_handler : function(selected, queued, total){
+				self.selected += selected;
+				if(selected) {
+					$('.ui-widget-header').remove();
+					var header = $('<div class="ui-widget-header"><span class="ui-pload-selected">' + self.selected + '</span> / <span class="ui-pload-limit">' + op.fileUploadLimit  + '</span></div>');
+					$(header).appendTo(el);
+				}
 				op.fileDialogComplete.call(this, selected, queued, total);
 			},
 			upload_error_handler: function(file, error, msg) {
 				op.uploadError.call(this, file, error, msg);
+				console.info(error);
 			},
 			debug : this.options.debug
 		};
         this.swfu = new SWFUpload(swfOptions);
+		this.swfu.setFileTypes(self.concatTypes(op.files),op.description);
 	},
 	getInstance: function() {
 		return this.swfu;

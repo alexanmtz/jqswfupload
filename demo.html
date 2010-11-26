@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>QUnit Test Suite</title>
+	<title>jquery pload demo</title>
 	<link rel="stylesheet" href="css/jquery-ui-1.8.4.custom.css" type="text/css" media="screen">
+	<link rel="stylesheet" href="css/style.css" type="text/css" media="screen">
 	<script type="text/javascript" src="libs/jquery-1.4.2.js"></script>
 	<script type="text/javascript" src="libs/jquery.ui.core.js"></script>
 	<script type="text/javascript" src="libs/jquery.ui.widget.js"></script>
@@ -15,6 +16,16 @@
 		$(function(){
 			var uploadContainer = $('#jquery-ui-pload');
 			uploadContainer.pload({
+				files: {
+					'image' : {
+						'types' : '*.jpeg, *.png',
+						'limit' : 10
+					},
+					'video' : {
+						'types' : '*.mov',
+						'limit' : 1
+					}
+				},
 				debug: true
 			});
 			
@@ -28,8 +39,10 @@
 
 </head>
 <body>
-	<h2>demo page</h2>
-	<div id="jquery-ui-pload"></div>
-	<a href="#" id="start-upload">start upload</a>
+	<div id="main">
+		<h2>demo page</h2>
+		<div id="jquery-ui-pload"></div>
+		<a href="#" id="start-upload">start upload</a>
+	</div>
 </body>
 </html>

@@ -61,6 +61,7 @@ test('the target selector contains a flash instance', function(){
 	ok(SWFUpload.movieCount > 0 ,"there's a movies started");
 });
 
+/*
 test('swfupload loaded', function(){
 	expect(1);
 	$('#jquery-ui-pload').pload({
@@ -69,6 +70,7 @@ test('swfupload loaded', function(){
 		}
 	});
 });
+*/
 
 test('get the swfupload instance', function() {
  	var el = $('#jquery-ui-pload');
@@ -77,6 +79,7 @@ test('get the swfupload instance', function() {
 	equals(instance.getSetting('button_placeholder_id'), 'jquery-ui-pload-flash-button', 'obteu a instancia atual');
 });
 
+/*
 test('dialog start handler', function() {
 	expect(1);
 	$('#jquery-ui-pload').pload({
@@ -87,7 +90,7 @@ test('dialog start handler', function() {
 	//$('#jquery-ui-pload object').trigger('click');
 });
 
-/*
+
 test('Upload started without any file', function(){
     expect(1);
 	$('#jquery-ui-pload').pload({
@@ -102,4 +105,9 @@ test('Upload started without any file', function(){
 });
 */
 
-
+test('get the swfupload instance', function() {
+ 	var el = $('#jquery-ui-pload');
+	el.pload();
+	var instance = el.pload('getInstance');
+	equals(instance.getSetting('button_placeholder_id'), 'jquery-ui-pload-flash-button', 'obteu a instancia atual');
+});
