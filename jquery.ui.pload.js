@@ -38,7 +38,16 @@ $.widget( "ui.pload", {
 		debug: false
 	},
 	concatTypes: function(types) {
-		return;
+		if(typeof types == 'string') {
+			return '*.*';	
+		} else {
+			var typesCont = '';
+			$.each(types, function(i, value){
+				typesCont+= types[i].fileTypes + ', '; 
+			});
+			return typesCont.substring(0, typesCont.length-2);
+		}
+		
 	},
 	_create: function() {
 		var el = $(this.element);
@@ -58,7 +67,9 @@ $.widget( "ui.pload", {
 			button_width : op.buttonWidth,
 			button_height : op.buttonHeight,
 			file_upload_limit : 10,
-			file_queue_limit : 10, 
+			file_queue_limit : 10,
+			file_types : self.concatTypes(op.files),
+			file_types_description : op.fileTypesDescription, 
 			button_image_url : op.buttonImageUrl,
 			swfupload_loaded_handler : function() {
 				op.flashLoaded.call(this);
@@ -88,7 +99,6 @@ $.widget( "ui.pload", {
 			debug : this.options.debug
 		};
         this.swfu = new SWFUpload(swfOptions);
-		this.swfu.setFileTypes(self.concatTypes(op.files),op.description);
 	},
 	getInstance: function() {
 		return this.swfu;

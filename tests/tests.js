@@ -105,9 +105,23 @@ test('Upload started without any file', function(){
 });
 */
 
-test('get the swfupload instance', function() {
+test('get all the filetypes groups and mixing in one', function() {
  	var el = $('#jquery-ui-pload');
 	el.pload();
-	var instance = el.pload('getInstance');
-	equals(instance.getSetting('button_placeholder_id'), 'jquery-ui-pload-flash-button', 'obteu a instancia atual');
+	
+	result = el.pload('concatTypes','*.*');
+	equal(result, '*.*', 'the file types return the same');
+	
+	result = el.pload('concatTypes',{
+		'image' : {
+			'fileTypes' : '*.jpeg, *.png',
+			'limit' : 10
+		},
+		'video' : {
+			'fileTypes' : '*.mov',
+			'limit' : 1
+		}
+	});
+	equal(result, '*.jpeg, *.png, *.mov', 'the file types concat');
+	
 });
