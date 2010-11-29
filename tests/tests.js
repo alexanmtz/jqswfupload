@@ -114,14 +114,81 @@ test('get all the filetypes groups and mixing in one', function() {
 	
 	result = el.pload('concatTypes',{
 		'image' : {
-			'fileTypes' : '*.jpeg; *.png',
+			'fileTypes' : ['jpeg', 'png'],
 			'limit' : 10
 		},
 		'video' : {
-			'fileTypes' : '*.mov',
+			'fileTypes' : ['mov'],
 			'limit' : 1
 		}
 	});
 	equal(result, '*.jpeg; *.png; *.mov', 'the file types concat');
+	
+});
+
+test('it should return a file extension, given an file object with an already defined type', function(){
+	var el = $('#jquery-ui-pload');
+	el.pload();
+	file = {
+		name:"obj_teste",
+		type:".jpg"
+	}
+	equal(el.pload('getFileType',file),'jpg','returning file extension');
+});
+
+test('it should return a file extension, with a file without type property', function(){
+	var el = $('#jquery-ui-pload');
+	el.pload();
+	file = {
+		name:"obj_teste.jpg",
+		type: ""
+	}
+	equal(el.pload('getFileType',file),'jpg','returning file extension');
+});
+
+test('it should return a file extension, when a file named with dot', function(){
+	var el = $('#jquery-ui-pload');
+	el.pload();
+	file = {
+		name:"obj_teste.jpg.jpg",
+		type: ""
+	}
+	equal(el.pload('getFileType',file),'jpg','returning file extension');
+});
+
+test('it should create a queue of file object based on file type', function(){
+	var el = $('#jquery-ui-pload');
+	el.pload();
+	file = {
+		id: 'SWFUpload_0_0',
+		type: 'jpg',
+		index: 0,
+		name: 'testimage.jpg'
+	};
+	el.pload('queueFiles', file);
+	
+	file2= {
+		id: 'SWFUpload_0_1',
+		type: 'gif',
+		index: 0,
+		name: 'testotherimage.jpg'
+	};
+	el.pload('queueFiles', file2);
+	
+	queue = [{
+		id: 'SWFUpload_0_0',
+		type: 'jpg',
+		index: 0,
+		name: 'testimage.jpg'
+	},
+	{
+		id: 'SWFUpload_0_1',
+		type: 'gif',
+		index: 0,
+		name: 'testotherimage.jpg'
+	}];
+	
+	var files = el.pload('getFiles');
+	equal(files, queue, 'create a queue with two files');
 	
 });

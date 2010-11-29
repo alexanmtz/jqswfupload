@@ -16,6 +16,7 @@
 $.widget( "ui.pload", {
 	swfu: null,
 	selected: 0,
+	files: [],
 	options: {
 		url: '/upload/',
 		flashUrl: 'libs/swfupload.swf',
@@ -43,10 +44,25 @@ $.widget( "ui.pload", {
 		} else {
 			var typesCont = '';
 			$.each(types, function(i, value){
-				typesCont+= types[i].fileTypes + '; '; 
+				$.each(types[i].fileTypes, function(i,value){
+					typesCont+= '*.' + value + '; ';				
+				});
 			});
 			return typesCont.substring(0, typesCont.length-2);
 		}
+	},
+	getFileType: function(file){
+		if (file.type ==""){
+			return file.name.match(/([^\/\\]+)\.(\w+)$/)[2];
+		}else{
+			return file.type.substring(1, file.type.length);
+		}
+	},
+	queueFiles: function(file) {
+		this.files.push(file);
+	},
+	getFiles: function() {
+		return this.files;
 	},
 	_create: function() {
 		var el = $(this.element);
@@ -77,11 +93,12 @@ $.widget( "ui.pload", {
 				op.fileDialogStart.call(this);		
 			},
 			file_queued_handler : function(file) {
-				console.info(file);
+				fileType = self.getFileType(file);
+				file.type = fileType;
+				self.queueFiles(file);
 				op.fileQueue.call(this, file);
 			},
 			file_queue_error_handler: function(file, error, msg) {
-				console.debug(file);
 				op.fileQueueError.call(this, file, error, msg);
 			},
 			file_dialog_complete_handler : function(selected, queued, total){
