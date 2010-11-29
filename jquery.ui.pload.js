@@ -59,7 +59,12 @@ $.widget( "ui.pload", {
 		}
 	},
 	queueFiles: function(file) {
-		this.files.push(file);
+		$.each(this.files,function(i,value){
+			
+			if(this.files[i].id != file.id) {
+				this.files.push(file);
+			}			
+		});
 	},
 	getFiles: function() {
 		return this.files;

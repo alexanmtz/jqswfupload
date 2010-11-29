@@ -175,7 +175,7 @@ test('it should create a queue of file object based on file type', function(){
 	};
 	el.pload('queueFiles', file2);
 	
-	queue = [{
+	expected = [{
 		id: 'SWFUpload_0_0',
 		type: 'jpg',
 		index: 0,
@@ -187,8 +187,28 @@ test('it should create a queue of file object based on file type', function(){
 		index: 0,
 		name: 'testotherimage.jpg'
 	}];
+	deepEqual(el.pload('getFiles'), expected, 'create a queue with two files');
 	
-	var files = el.pload('getFiles');
-	equal(files, queue, 'create a queue with two files');
+});
+
+test('it should not include on queue a file with same id', function(){
+	var el = $('#jquery-ui-pload');
+	el.pload();
+	file = {
+		id: 'SWFUpload_0_0',
+		type: 'jpg',
+		index: 0,
+		name: 'testimage.jpg'
+	};
+	el.pload('queueFiles', file);
 	
+	el.pload('queueFiles', file);
+	
+	expected = [{
+		id: 'SWFUpload_0_0',
+		type: 'jpg',
+		index: 0,
+		name: 'testimage.jpg'
+	}];
+	deepEqual(el.pload('getFiles'), expected, 'a queue with same file');
 });
