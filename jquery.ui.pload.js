@@ -28,7 +28,16 @@ $.widget( "ui.pload", {
 		buttonTextTopPadding: 5, 
 		style: '.text {color: black; font-weight: bold; font-size: 16pt; text-align:center;margin-top:15px;}',
 		multiple: true,
-		files: "*.*",
+		rules: {
+			'image' : {
+				'fileTypes' : ['jpeg', 'jpg', 'png'],
+				'limit' : 6
+			},
+			'video' : {
+				'fileTypes' : ['mov'],
+				'limit' : 1
+			}
+		},
 		fileTypesDescription: 'choose file(s)',
 		flashLoaded: function(){},
 		fileDialogStart: function() {},
@@ -59,12 +68,17 @@ $.widget( "ui.pload", {
 		}
 	},
 	queueFiles: function(file) {
-		$.each(this.files,function(i,value){
-			
-			if(this.files[i].id != file.id) {
-				this.files.push(file);
-			}			
+		var self = this;
+		var rules = this.options.rules
+		var limit = rules.video.limit;
+		
+		$.each(rules.video.fileTypes, function(i,value){
+			if(file.type==value && self.files.length < limit) {
+				self.files.push(file);
+			}
 		});
+		
+				
 	},
 	getFiles: function() {
 		return this.files;
@@ -86,9 +100,9 @@ $.widget( "ui.pload", {
 	        file_size_limit: op.fileSize,
 			button_width : op.buttonWidth,
 			button_height : op.buttonHeight,
-			file_upload_limit : 10,
-			file_queue_limit : 10,
-			file_types : self.concatTypes(op.files), 
+			file_upload_limit : 0,
+			file_queue_limit : 0,
+			file_types : self.concatTypes(op.rules), 
 			file_types_description : op.fileTypesDescription, 
 			button_image_url : op.buttonImageUrl,
 			swfupload_loaded_handler : function() {
@@ -98,8 +112,10 @@ $.widget( "ui.pload", {
 				op.fileDialogStart.call(this);		
 			},
 			file_queued_handler : function(file) {
-				fileType = self.getFileType(file);
-				file.type = fileType;
+				if(!file.type) {
+					fileType = self.getFileType(file);
+					file.type = fileType;					
+				}
 				self.queueFiles(file);
 				op.fileQueue.call(this, file);
 			},

@@ -156,6 +156,37 @@ test('it should return a file extension, when a file named with dot', function()
 	equal(el.pload('getFileType',file),'jpg','returning file extension');
 });
 
+test('it should no queue if exceed the video limit', function(){
+	var el = $('#jquery-ui-pload');
+	el.pload();
+	
+	file1= {
+		id: 'SWFUpload_0_1',
+		type: 'mov',
+		index: 1,
+		name: 'movie1.mov'
+	};
+	el.pload('queueFiles', file1);
+
+	file2 = {
+		id: 'SWFUpload_0_2',
+		type: 'mov',
+		index: 2,
+		name: 'movie2.mov'
+	};
+	el.pload('queueFiles', file2);	
+	
+	expected = [{
+		id: 'SWFUpload_0_1',
+		type: 'mov',
+		index: 1,
+		name: 'movie1.mov'
+	}];
+	deepEqual(el.pload('getFiles'), expected, 'create a queue with two files');
+	
+});
+
+/*
 test('it should create a queue of file object based on file type', function(){
 	var el = $('#jquery-ui-pload');
 	el.pload();
@@ -190,25 +221,4 @@ test('it should create a queue of file object based on file type', function(){
 	deepEqual(el.pload('getFiles'), expected, 'create a queue with two files');
 	
 });
-
-test('it should not include on queue a file with same id', function(){
-	var el = $('#jquery-ui-pload');
-	el.pload();
-	file = {
-		id: 'SWFUpload_0_0',
-		type: 'jpg',
-		index: 0,
-		name: 'testimage.jpg'
-	};
-	el.pload('queueFiles', file);
-	
-	el.pload('queueFiles', file);
-	
-	expected = [{
-		id: 'SWFUpload_0_0',
-		type: 'jpg',
-		index: 0,
-		name: 'testimage.jpg'
-	}];
-	deepEqual(el.pload('getFiles'), expected, 'a queue with same file');
-});
+*/
