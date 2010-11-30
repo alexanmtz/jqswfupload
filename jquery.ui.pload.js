@@ -17,6 +17,7 @@ $.widget( "ui.pload", {
 	swfu: null,
 	selected: 0,
 	files: [],
+	medias: {'image':0, 'video':0},
 	options: {
 		url: '/upload/',
 		flashUrl: 'libs/swfupload.swf',
@@ -69,16 +70,15 @@ $.widget( "ui.pload", {
 	},
 	queueFiles: function(file) {
 		var self = this;
-		var rules = this.options.rules
-		var limit = rules.video.limit;
-		
-		$.each(rules.video.fileTypes, function(i,value){
-			if(file.type==value && self.files.length < limit) {
-				self.files.push(file);
-			}
+		var rules = this.options.rules;
+		$.each(rules, function(item,key){
+			$.each(key.fileTypes, function(j,value){
+				self.medias[item]++;
+				if(file.type==value && self.medias[item]  <= key.limit ) {
+					self.files.push(file);
+				}
+			});			
 		});
-		
-				
 	},
 	getFiles: function() {
 		return this.files;
@@ -143,10 +143,14 @@ $.widget( "ui.pload", {
 		};
         this.swfu = new SWFUpload(swfOptions);
 	},
+	destroy: function() {
+		this.swfu.destroy();
+		$(this.element).empty();
+		this.files = {};
+	},
 	getInstance: function() {
 		return this.swfu;
 	}
-
 });
 
 $.extend( $.ui.pload, {
