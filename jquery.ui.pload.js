@@ -72,14 +72,23 @@ $.widget( "ui.pload", {
 		var self = this;
 		var rules = this.options.rules;
 		$.each(rules, function(item,key){
+			self.swfu.setFileQueueLimit(item.limit);
 			$.each(key.fileTypes, function(j,value){
-				if(file.type==value && self.medias[item]  <= key.limit ) {
+				if(file.type==value && self.medias[item]  < key.limit ) {
 					self.medias[item]++;
 					self.files.push(file);
+					self.insertFile(file);
 				}
 			});			
 		});
 		self.updateCounter();
+	},
+	insertFile: function(file) {
+		$('.ui-widget-content').show();
+		var name = '<span class="ui-pload-filename">' + file.name + '</span>';
+		var type = '<span class="ui-pload-filetype">' + file.type + '</span>';
+		var size = '<span class="ui-pload-filesize">' + file.size + '</span>';
+		$('<li>'+ name + type + size +'</li>').appendTo('.ui-pload-file-list');
 	},
 	updateCounter: function() {
 		$('.ui-pload-file-counter',this.element).show();
@@ -94,17 +103,22 @@ $.widget( "ui.pload", {
 		var self = this;
 		var op = self.options;
 		this.element.append('<div id="jquery-ui-pload-flash-button"></div>');
-		
-		//header
 		this.element.addClass('ui-widget ui-pload');
+
+		//header
 		var header = $('<div class="ui-widget-header ui-pload-file-counter"></div>');
 		header.appendTo(this.element);
 		var headerContent = '';
 		$.each(this.medias,function(item,value){
-			headerContent+= '<div class="ui-pload-type-'+ item +'"><span class="ui-pload-current"></span> / <span class="ui-pload-total">'+ op.rules[item].limit +'</span></div>';			
+			headerContent+= '<div class="ui-pload-type-'+ item +'"><span class="">'+item+'</span> <span class="ui-pload-current"></span> / <span class="ui-pload-total">'+ op.rules[item].limit +'</span></div>';			
 		});
 		$(headerContent).appendTo(header);
 		header.hide();
+		
+		//content
+		$('<div class="ui-widget-content"></div>').appendTo(this.element).hide();
+		$('<ul class="ui-pload-file-list"></ul>').prependTo('.ui-widget-content');
+		
 		var swfOptions = {
 	        upload_url: op.url,
 	        flash_url: op.flashUrl,
