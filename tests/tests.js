@@ -7,32 +7,29 @@ module("dependencies and initialization checking",{
 			'type' : 'file',
 			'name' : 'Filedata'
 		}).appendTo('#swfupload');	
+        this.swfupload = new SWFUpload({
+            upload_url: "somehurl",
+            flash_url: "swfupload.swf",
+            button_placeholder_id: "swfupload",
+            file_size_limit: "20 MB"
+        });
+	},
+	teardown: function() {
+		this.swfupload.destroy();
 	}
 });
 
 test("check if all dependencies is loading", function() {
 	ok($.ui.progressbar, 'progres bar ok');
 	ok($.ui.button, 'button ok');
-    var swfupload = new SWFUpload({
-        upload_url: "somehurl",
-        flash_url: "swfupload.swf",
-		button_placeholder_id : "swfupload", 
-        file_size_limit: "20 MB"
-    });
-	equals(typeof swfupload,'object', 'swfupload loaded');
+	equals(typeof this.swfupload,'object', 'swfupload loaded');
 	
 });
 
 test("force upload start without file", function() {
 	ok($.ui.progressbar, 'progres bar ok');
 	ok($.ui.button, 'button ok');
-    var swfupload = new SWFUpload({
-        upload_url: "somehurl",
-        flash_url: "swfupload.swf",
-		button_placeholder_id : "swfupload", 
-        file_size_limit: "20 MB",
-    });
-	equals(typeof swfupload,'object', 'swfupload loaded');
+	equals(typeof this.swfupload,'object', 'swfupload loaded');
 	
 });
 
@@ -47,9 +44,8 @@ module("core tests",{
 		}).appendTo('#swfupload');
 		this.element = $('#jquery-ui-pload').pload();			
 	},
-	tearDown: function() {
+	teardown: function() {
 		this.element.pload('destroy');
-		this.element.remove();
 	}
 });
 
@@ -60,7 +56,6 @@ test("plugin started", function(){
 });
 
 test('the target selector contains a flash instance', function(){
-	this.element.pload();
 	ok($('object',this.element).length,"there's a flash object inside de component");
 	ok(SWFUpload.movieCount > 0 ,"there's a movies started");
 });
@@ -77,7 +72,7 @@ test('swfupload loaded', function(){
 */
 
 test('get the swfupload instance', function() {
- 	this.element.pload();
+ 	//this.element.pload();
 	var instance = this.element.pload('getInstance');
 	equals(instance.getSetting('button_placeholder_id'), 'jquery-ui-pload-flash-button', 'obteu a instancia atual');
 });
@@ -131,7 +126,7 @@ test('it should return a file extension, given an file object with an already de
 	var file = {
 		name:"obj_teste",
 		type:".jpg"
-	}
+	};
 	equal(this.element.pload('getFileType',file),'jpg','returning file extension');
 });
 
@@ -147,13 +142,12 @@ test('it should return a file extension, when a file named with dot', function()
 	var file = {
 		name:"obj_teste.jpg.jpg",
 		type: ""
-	}
+	};
 	equal(this.element.pload('getFileType',file),'jpg','returning file extension');
 });
 
 
 test('it should queue if not exceed the limit', function(){
-	
 	var file1 = {
 		id: 'SWFUpload_0_1',
 		type: 'jpg',
@@ -169,7 +163,7 @@ test('it should queue if not exceed the limit', function(){
 		name: 'image2.jpg'
 	};
 	this.element.pload('queueFiles', file2);	
-	
+
 	var expected = [
 		{
 			id: 'SWFUpload_0_1',
@@ -189,6 +183,7 @@ test('it should queue if not exceed the limit', function(){
 });
 
 test('it should not enqueue if exceed the video limit', function(){
+
 	var filex = {
 		id: 'SWFUpload_0_1',
 		type: 'mov',

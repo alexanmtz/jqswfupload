@@ -84,7 +84,7 @@ $.widget( "ui.pload", {
 		return this.files;
 	},
 	_create: function() {
-		var el = $(this.element);
+		var el = this.element;
 		var self = this;
 		var op = self.options;
 		el.append('<div id="jquery-ui-pload-flash-button"></div>');
@@ -137,16 +137,16 @@ $.widget( "ui.pload", {
 			},
 			upload_error_handler: function(file, error, msg) {
 				op.uploadError.call(this, file, error, msg);
-				console.info(error);
 			},
 			debug : this.options.debug
 		};
         this.swfu = new SWFUpload(swfOptions);
 	},
 	destroy: function() {
+		this.files = [];
 		this.swfu.destroy();
-		$(this.element).empty();
-		this.files = {};
+		this.element.empty();
+		$.Widget.prototype.destroy.apply( this, arguments );
 	},
 	getInstance: function() {
 		return this.swfu;
