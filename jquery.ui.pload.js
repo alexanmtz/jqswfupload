@@ -73,22 +73,38 @@ $.widget( "ui.pload", {
 		var rules = this.options.rules;
 		$.each(rules, function(item,key){
 			$.each(key.fileTypes, function(j,value){
-				self.medias[item]++;
 				if(file.type==value && self.medias[item]  <= key.limit ) {
+					self.medias[item]++;
 					self.files.push(file);
 				}
 			});			
+		});
+		self.updateCounter();
+	},
+	updateCounter: function() {
+		$('.ui-pload-file-counter',this.element).show();
+		$.each(this.medias, function(item,value){
+			$('.ui-pload-current','.ui-pload-type-'+item).html(value);
 		});
 	},
 	getFiles: function() {
 		return this.files;
 	},
 	_create: function() {
-		var el = this.element;
 		var self = this;
 		var op = self.options;
-		el.append('<div id="jquery-ui-pload-flash-button"></div>');
-		el.addClass('ui-widget ui-pload');
+		this.element.append('<div id="jquery-ui-pload-flash-button"></div>');
+		
+		//header
+		this.element.addClass('ui-widget ui-pload');
+		var header = $('<div class="ui-widget-header ui-pload-file-counter"></div>');
+		header.appendTo(this.element);
+		var headerContent = '';
+		$.each(this.medias,function(item,value){
+			headerContent+= '<div class="ui-pload-type-'+ item +'"><span class="ui-pload-current"></span> / <span class="ui-pload-total">'+ op.rules[item].limit +'</span></div>';			
+		});
+		$(headerContent).appendTo(header);
+		header.hide();
 		var swfOptions = {
 	        upload_url: op.url,
 	        flash_url: op.flashUrl,
@@ -113,7 +129,7 @@ $.widget( "ui.pload", {
 			},
 			file_queued_handler : function(file) {
 				if(!file.type) {
-					fileType = self.getFileType(file);
+					var fileType = self.getFileType(file);
 					file.type = fileType;					
 				}
 				self.queueFiles(file);
@@ -123,16 +139,6 @@ $.widget( "ui.pload", {
 				op.fileQueueError.call(this, file, error, msg);
 			},
 			file_dialog_complete_handler : function(selected, queued, total){
-				self.selected += selected;
-				if(selected) {
-					$('.ui-widget-header').remove();
-					var files = op.files;
-					var header = $('<div class="ui-widget-header"></div>');
-					$(header).appendTo(el);
-					$.each(files,function(i,value){
-						$('<h3>'+i+'</h3><span class="ui-pload-selected"></span> / <span class="ui-pload-limit">'+ files[i].limit +'</span>').appendTo('.ui-widget-header');						
-					});
-				}
 				op.fileDialogComplete.call(this, selected, queued, total);
 			},
 			upload_error_handler: function(file, error, msg) {
