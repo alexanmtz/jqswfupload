@@ -85,10 +85,24 @@ $.widget( "ui.pload", {
 	},
 	insertFile: function(file) {
 		$('.ui-widget-content').show();
-		var name = '<span class="ui-pload-filename">' + file.name + '</span>';
-		var type = '<span class="ui-pload-filetype">' + file.type + '</span>';
-		var size = '<span class="ui-pload-filesize">' + file.size + '</span>';
-		$('<li>'+ name + type + size +'</li>').appendTo('.ui-pload-file-list');
+		var name = '<span class="ui-pload-filename">' + file.name + '</span> ';
+		var type = '<span class="ui-pload-filetype">' + file.type + '</span> ';
+		var size = '<span class="ui-pload-filesize">' + file.size + '</span> ';
+		var deleteButton = '<a href="#" class="ui-pload-delete">Apagar</a> ';
+		$('<li id="'+file.id+'">'+ deleteButton + name + type + size +'</li>').appendTo('.ui-pload-file-list');
+		this.deleteFileHandler();
+	},
+	deleteFileHandler: function() {
+		var self = this;
+		$('.ui-widget-content').bind('click', function(e){
+			var deletedElement = $(e.target).parent();
+			var id = deletedElement.attr("id");
+			var file = self.swfu.getFile(id);
+			self.swfu.cancelUpload(id);
+			deletedElement.remove();
+			updateCounter();
+			return false;
+		});
 	},
 	updateCounter: function() {
 		$('.ui-pload-file-counter',this.element).show();
@@ -98,6 +112,16 @@ $.widget( "ui.pload", {
 	},
 	getFiles: function() {
 		return this.files;
+	},
+	// fix a mac os bug that return empty the filetype
+	getFile: function(id) {
+		var newFile = this.swfu.getFile(id);
+		if(!newFile.type) {
+			var fileType = this.getFileType(newFile);
+			newFile.type = fileType;					
+		}
+		console.info(newFile);
+		return newFile;
 	},
 	_create: function() {
 		var self = this;
@@ -142,12 +166,9 @@ $.widget( "ui.pload", {
 				op.fileDialogStart.call(this);		
 			},
 			file_queued_handler : function(file) {
-				if(!file.type) {
-					var fileType = self.getFileType(file);
-					file.type = fileType;					
-				}
-				self.queueFiles(file);
-				op.fileQueue.call(this, file);
+				var newFile = self.getFile(file.id);
+				self.queueFiles(newFile);
+				op.fileQueue.call(this, newFile);
 			},
 			file_queue_error_handler: function(file, error, msg) {
 				op.fileQueueError.call(this, file, error, msg);
