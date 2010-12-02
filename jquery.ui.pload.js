@@ -97,7 +97,7 @@ $.widget( "ui.pload", {
 		$('.ui-widget-content').bind('click', function(e){
 			var deletedElement = $(e.target).parent();
 			var id = deletedElement.attr("id");
-			var file = self.swfu.getFile(id);
+			var file = self.getFile(id);
 			self.swfu.cancelUpload(id);
 			deletedElement.remove();
 			updateCounter();
@@ -122,6 +122,9 @@ $.widget( "ui.pload", {
 		}
 		console.info(newFile);
 		return newFile;
+	},
+	startUpload: function() {
+		this.swfu.startUpload();
 	},
 	_create: function() {
 		var self = this;
