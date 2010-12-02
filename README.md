@@ -1,6 +1,9 @@
 # jQuery-UI-pload
 > Version 0.2
 	* handler the file delete from queue
+> Version 0.3
+    * Callbacks for file upload success and file upload complete
+    * Additional post parameters throught postParams	
 
 # About the plugin ?
 

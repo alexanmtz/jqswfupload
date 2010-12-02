@@ -21,6 +21,7 @@ $.widget( "ui.pload", {
 	options: {
 		url: '/upload/',
 		flashUrl: 'libs/swfupload.swf',
+		postParams: {},
 		fileSize: "20 MB",
 		buttonImageUrl: 'btn-pload-select.png',
 		buttonText: '<span class="text">Hello</span>',
@@ -45,8 +46,80 @@ $.widget( "ui.pload", {
 		fileQueue: function() {},
 		fileQueueError: function() {},
 		fileDialogComplete: function(){},
-		uploadError: function() {},
+		fileUploadSuccess: function(){},
+		fileUploadComplete: function() {},
+		fileUploadError: function() {},
+		uploadSuccess: function() {},
 		debug: false
+	},
+	_create: function() {
+		var self = this;
+		var op = self.options;
+		this.element.append('<div id="jquery-ui-pload-flash-button"></div>');
+		this.element.addClass('ui-widget ui-pload');
+
+		//header
+		var header = $('<div class="ui-widget-header ui-pload-file-counter"></div>');
+		header.appendTo(this.element);
+		var headerContent = '';
+		$.each(this.medias,function(item,value){
+			headerContent+= '<div class="ui-pload-type-'+ item +'"><span class="">'+item+'</span> <span class="ui-pload-current"></span> / <span class="ui-pload-total">'+ op.rules[item].limit +'</span></div>';			
+		});
+		$(headerContent).appendTo(header);
+		header.hide();
+		
+		//content
+		$('<div class="ui-widget-content"></div>').appendTo(this.element).hide();
+		$('<ul class="ui-pload-file-list"></ul>').prependTo('.ui-widget-content');
+		
+		var swfOptions = {
+	        post_params: op.postParams,
+			upload_url: op.url,
+	        flash_url: op.flashUrl,
+			button_placeholder_id: 'jquery-ui-pload-flash-button',
+			button_text : op.buttonText,
+			button_text_style : op.style, 
+			button_text_top_padding: op.buttonTextTopPadding,
+			button_action : op.multiple ? SWFUpload.BUTTON_ACTION.SELECT_FILES : SWFUpload.BUTTON_ACTION.SELECT_FILES, 
+	        file_size_limit: op.fileSize,
+			button_width : op.buttonWidth,
+			button_height : op.buttonHeight,
+			file_upload_limit : 0,
+			file_queue_limit : 0,
+			file_types : self.concatTypes(op.rules), 
+			file_types_description : op.fileTypesDescription, 
+			button_image_url : op.buttonImageUrl,
+			swfupload_loaded_handler : function() {
+				op.flashLoaded.call(this);
+			},
+			file_dialog_start_handler : function() {
+				op.fileDialogStart.call(this);		
+			},
+			file_queued_handler : function(file) {
+				var newFile = self.getFile(file.id);
+				self.queueFiles(newFile);
+				op.fileQueue.call(this, newFile);
+			},
+			file_queue_error_handler: function(file, error, msg) {
+				op.fileQueueError.call(this, file, error, msg);
+			},
+			file_dialog_complete_handler : function(selected, queued, total){
+				op.fileDialogComplete.call(this, selected, queued, total);
+			},
+			upload_success_handler: function(file,data,response) {
+				
+				op.fileUploadSuccess.call(this,file,data,response);
+			},
+			uploadCompleteHandler: function(file) {
+				
+				op.fileCompleteHandler.call(this,file);
+			},
+			upload_error_handler: function(file, error, msg) {
+				op.uploadError.call(this, file, error, msg);
+			},
+			debug : this.options.debug
+		};
+        this.swfu = new SWFUpload(swfOptions);
 	},
 	concatTypes: function(types) {
 		if(typeof types == 'string') {
@@ -141,66 +214,6 @@ $.widget( "ui.pload", {
 	},
 	startUpload: function() {
 		this.swfu.startUpload();
-	},
-	_create: function() {
-		var self = this;
-		var op = self.options;
-		this.element.append('<div id="jquery-ui-pload-flash-button"></div>');
-		this.element.addClass('ui-widget ui-pload');
-
-		//header
-		var header = $('<div class="ui-widget-header ui-pload-file-counter"></div>');
-		header.appendTo(this.element);
-		var headerContent = '';
-		$.each(this.medias,function(item,value){
-			headerContent+= '<div class="ui-pload-type-'+ item +'"><span class="">'+item+'</span> <span class="ui-pload-current"></span> / <span class="ui-pload-total">'+ op.rules[item].limit +'</span></div>';			
-		});
-		$(headerContent).appendTo(header);
-		header.hide();
-		
-		//content
-		$('<div class="ui-widget-content"></div>').appendTo(this.element).hide();
-		$('<ul class="ui-pload-file-list"></ul>').prependTo('.ui-widget-content');
-		
-		var swfOptions = {
-	        upload_url: op.url,
-	        flash_url: op.flashUrl,
-			button_placeholder_id: 'jquery-ui-pload-flash-button',
-			button_text : op.buttonText,
-			button_text_style : op.style, 
-			button_text_top_padding: op.buttonTextTopPadding,
-			button_action : op.multiple ? SWFUpload.BUTTON_ACTION.SELECT_FILES : SWFUpload.BUTTON_ACTION.SELECT_FILES, 
-	        file_size_limit: op.fileSize,
-			button_width : op.buttonWidth,
-			button_height : op.buttonHeight,
-			file_upload_limit : 0,
-			file_queue_limit : 0,
-			file_types : self.concatTypes(op.rules), 
-			file_types_description : op.fileTypesDescription, 
-			button_image_url : op.buttonImageUrl,
-			swfupload_loaded_handler : function() {
-				op.flashLoaded.call(this);
-			},
-			file_dialog_start_handler : function() {
-				op.fileDialogStart.call(this);		
-			},
-			file_queued_handler : function(file) {
-				var newFile = self.getFile(file.id);
-				self.queueFiles(newFile);
-				op.fileQueue.call(this, newFile);
-			},
-			file_queue_error_handler: function(file, error, msg) {
-				op.fileQueueError.call(this, file, error, msg);
-			},
-			file_dialog_complete_handler : function(selected, queued, total){
-				op.fileDialogComplete.call(this, selected, queued, total);
-			},
-			upload_error_handler: function(file, error, msg) {
-				op.uploadError.call(this, file, error, msg);
-			},
-			debug : this.options.debug
-		};
-        this.swfu = new SWFUpload(swfOptions);
 	},
 	destroy: function() {
 		this.files = [];
