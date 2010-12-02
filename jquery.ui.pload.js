@@ -68,6 +68,24 @@ $.widget( "ui.pload", {
 			return file.type.substring(1, file.type.length);
 		}
 	},
+	decrementCounter: function(file) {
+		var self = this;
+		var rules = this.options.rules;
+		var found = false;
+		var mediaType;
+		$.each(rules, function(item,key){
+			$.each(key.fileTypes, function(j,value){
+				if(file.type==value) {
+					found = true;
+					mediaType = item;
+				}
+			});			
+		});
+		if(found) {
+			self.medias[mediaType]--;
+			delete self.files[file.index];
+		}
+	},
 	queueFiles: function(file) {
 		var self = this;
 		var rules = this.options.rules;
@@ -90,17 +108,16 @@ $.widget( "ui.pload", {
 		var size = '<span class="ui-pload-filesize">' + file.size + '</span> ';
 		var deleteButton = '<a href="#" class="ui-pload-delete">Apagar</a> ';
 		$('<li id="'+file.id+'">'+ deleteButton + name + type + size +'</li>').appendTo('.ui-pload-file-list');
-		this.deleteFileHandler();
+		this.deleteFileHandler(file.id);
 	},
-	deleteFileHandler: function() {
+	deleteFileHandler: function(id) {
 		var self = this;
-		$('.ui-widget-content').bind('click', function(e){
-			var deletedElement = $(e.target).parent();
-			var id = deletedElement.attr("id");
-			var file = self.getFile(id);
+		var file = self.getFile(id);
+		$('a','#'+file.id).bind('click', function(e){
 			self.swfu.cancelUpload(id);
-			deletedElement.remove();
-			updateCounter();
+			$(this).parent().remove();
+			self.decrementCounter(file);
+			self.updateCounter();
 			return false;
 		});
 	},
@@ -120,7 +137,6 @@ $.widget( "ui.pload", {
 			var fileType = this.getFileType(newFile);
 			newFile.type = fileType;					
 		}
-		console.info(newFile);
 		return newFile;
 	},
 	startUpload: function() {
