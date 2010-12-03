@@ -3,7 +3,10 @@
 	* handler the file delete from queue
 > Version 0.3
     * Callbacks for file upload success and file upload complete
-    * Additional post parameters throught postParams	
+    * Additional post parameters throught postParams
+> Version 0.4
+    * Callback for all files completed
+    * Fixed delete handlers bug	
 
 # About the plugin ?
 
