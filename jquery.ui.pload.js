@@ -45,11 +45,14 @@ $.widget( "ui.pload", {
 		fileDialogStart: function() {},
 		fileQueue: function() {},
 		fileQueueError: function() {},
+		fileUploadProgress: function() {},
 		fileDialogComplete: function(){},
 		fileUploadSuccess: function(){},
 		fileUploadComplete: function() {},
 		fileUploadError: function() {},
-		uploadSuccess: function() {},
+		uploadStart: function(){},
+		uploadProgress: function() {},
+		uploadComplete: function() {},
 		debug: false
 	},
 	_create: function() {
@@ -106,16 +109,25 @@ $.widget( "ui.pload", {
 			file_dialog_complete_handler : function(selected, queued, total){
 				op.fileDialogComplete.call(this, selected, queued, total);
 			},
+			upload_start_handler: function(file) {
+				op.uploadStart.call(this,file);
+			},
+			upload_progress_handler: function(file, bytes, total) {
+				op.fileUploadProgress.call(this,file,bytes,total); 
+			},
 			upload_success_handler: function(file,data,response) {
-				
 				op.fileUploadSuccess.call(this,file,data,response);
 			},
-			uploadCompleteHandler: function(file) {
-				
-				op.fileCompleteHandler.call(this,file);
+			upload_complete_handler: function(file) {
+				self.removeFromQueue(file);
+				self.startUpload(file);
+				if(!self.files.length) {
+					op.uploadComplete.call(this);
+				}
+				op.fileUploadComplete.call(this,file);
 			},
 			upload_error_handler: function(file, error, msg) {
-				op.uploadError.call(this, file, error, msg);
+				op.fileUploadError.call(this, file, error, msg);
 			},
 			debug : this.options.debug
 		};
@@ -141,7 +153,7 @@ $.widget( "ui.pload", {
 			return file.type.substring(1, file.type.length);
 		}
 	},
-	decrementCounter: function(file) {
+	decrementMediaCounter: function(file) {
 		var self = this;
 		var rules = this.options.rules;
 		var found = false;
@@ -156,7 +168,6 @@ $.widget( "ui.pload", {
 		});
 		if(found) {
 			self.medias[mediaType]--;
-			delete self.files[file.index];
 		}
 	},
 	queueFiles: function(file) {
@@ -165,14 +176,29 @@ $.widget( "ui.pload", {
 		$.each(rules, function(item,key){
 			self.swfu.setFileQueueLimit(item.limit);
 			$.each(key.fileTypes, function(j,value){
-				if(file.type==value && self.medias[item]  < key.limit ) {
-					self.medias[item]++;
-					self.files.push(file);
-					self.insertFile(file);
+				if(file.type==value) {
+					if(self.medias[item]  < key.limit) {
+						self.medias[item]++;
+						self.files.push(file);
+						self.insertFile(file);
+					} else {
+						self.swfu.cancelUpload(file.id);
+					}
+					
 				}
 			});			
 		});
 		self.updateCounter();
+	},
+	removeFromQueue: function(file){
+		var index = -1;
+		$.each(this.files,function(i,obj){
+			if(obj.id == file.id) {
+				index = i;
+			}
+		});
+		
+		this.files.splice(index,1);
 	},
 	insertFile: function(file) {
 		$('.ui-widget-content').show();
@@ -189,7 +215,8 @@ $.widget( "ui.pload", {
 		$('a','#'+file.id).bind('click', function(e){
 			self.swfu.cancelUpload(id);
 			$(this).parent().remove();
-			self.decrementCounter(file);
+			self.removeFromQueue(file);
+			self.decrementMediaCounter(file);
 			self.updateCounter();
 			return false;
 		});
@@ -212,7 +239,7 @@ $.widget( "ui.pload", {
 		}
 		return newFile;
 	},
-	startUpload: function() {
+	startUpload: function(file) {
 		this.swfu.startUpload();
 	},
 	destroy: function() {

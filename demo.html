@@ -16,7 +16,14 @@
 		$(function(){
 			var uploadContainer = $('#jquery-ui-pload');
 			uploadContainer.pload({
-				debug: true
+				url: 'upload.php',
+				debug: true,
+				fileUploadSuccess: function(file,data,response){
+					$('#server-data pre').html(data);
+				},
+				uploadComplete: function() {
+					console.info('all uploads completed');
+				}
 			});
 			
 			$('#start-upload').bind('click',function(){
@@ -34,5 +41,6 @@
 		<div id="jquery-ui-pload"></div>
 		<a href="#" id="start-upload">start upload</a>
 	</div>
+	<div id="server-data"><pre></pre></div>
 </body>
 </html>
