@@ -113,6 +113,7 @@ $.widget( "ui.pload", {
 				op.uploadStart.call(this,file);
 			},
 			upload_progress_handler: function(file, bytes, total) {
+				
 				op.fileUploadProgress.call(this,file,bytes,total); 
 			},
 			upload_success_handler: function(file,data,response) {
@@ -205,7 +206,7 @@ $.widget( "ui.pload", {
 		var name = '<span class="ui-pload-filename">' + file.name + '</span> ';
 		var type = '<span class="ui-pload-filetype">' + file.type + '</span> ';
 		var size = '<span class="ui-pload-filesize">' + file.size + '</span> ';
-		var deleteButton = '<a href="#" class="ui-pload-delete">Apagar</a> ';
+		var deleteButton = '<a href="#" title="remove file" class="ui-pload-delete"><span class="ui-icon ui-icon-trash">Apagar</span></a> ';
 		$('<li id="'+file.id+'">'+ deleteButton + name + type + size +'</li>').appendTo('.ui-pload-file-list');
 		this.deleteFileHandler(file.id);
 	},
