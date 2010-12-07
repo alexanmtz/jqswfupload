@@ -6,7 +6,10 @@
     * Additional post parameters throught postParams
 > Version 0.4
     * Callback for all files completed
-    * Fixed delete handlers bug	
+    * Fixed delete handlers bug
+> Version 0.5
+    * jQuery UI Theming of delete button and warnings
+	* file size limit
 
 # About the plugin ?
 

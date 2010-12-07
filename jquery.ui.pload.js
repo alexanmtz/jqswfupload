@@ -15,9 +15,13 @@
 (function( $, undefined ) {
 $.widget( "ui.pload", {
 	swfu: null,
-	selected: 0,
 	files: [],
 	medias: {'image':0, 'video':0},
+	progress: {
+		file: null,
+		current: 0,
+		total: 0
+	},
 	options: {
 		url: '/upload/',
 		flashUrl: 'libs/swfupload.swf',
@@ -33,12 +37,12 @@ $.widget( "ui.pload", {
 			'image' : {
 				'fileTypes' : ['jpeg', 'jpg', 'png'],
 				'limit' : 6,
-				'size' : '9999999999'
+				'size' : '9999999'
 			},
 			'video' : {
 				'fileTypes' : ['mov'],
 				'limit' : 1,
-				'size' : '9999999999'
+				'size' : '99999999'
 			}
 		},
 		fileTypesDescription: 'choose file(s)',
@@ -114,7 +118,13 @@ $.widget( "ui.pload", {
 				op.uploadStart.call(this,file);
 			},
 			upload_progress_handler: function(file, bytes, total) {
-				
+				self.progress.file = file.name;
+				self.progress.current += total - bytes;
+				var now = self.progress.current/self.progress.total;
+				console.info(now);
+				var percent = now.toPrecision(3)*100;
+				console.info( percent + '%');
+				console.debug(self.progress.file);
 				op.fileUploadProgress.call(this,file,bytes,total); 
 			},
 			upload_success_handler: function(file,data,response) {
@@ -196,7 +206,8 @@ $.widget( "ui.pload", {
 						if(file.size < key.size) {
 							self.medias[item]++;
 							self.files.push(file);
-							self.insertFile(file, false);							
+							self.insertFile(file, false);
+							self.progress.total += file.size;							
 						} else {
 							self.insertFile(file, true);
 							self.swfu.cancelUpload(file.id);

@@ -21,7 +21,7 @@
 	font-style: italic;	
 }
 
-.ui-pload-fileinfo {
+.ui-pload-file-invalid .ui-pload-fileinfo {
 	text-decoration: line-through;
 }
 
