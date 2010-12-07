@@ -146,7 +146,7 @@ test('it should return a file extension, when a file named with dot', function()
 	equal(this.element.pload('getFileType',file),'jpg','returning file extension');
 });
 
-
+/*
 test('it should queue if not exceed the limit', function(){
 	var file1 = {
 		id: 'SWFUpload_0_1',
@@ -210,7 +210,7 @@ test('it should not enqueue if exceed the video limit', function(){
 	deepEqual(this.element.pload('getFiles'), expected, 'create a queue with one video');
 });
 
-/*
+
 test('it should not enqueue if exceed the image limit', function(){
 	var el = $('#jquery-ui-pload');
 	el.pload();

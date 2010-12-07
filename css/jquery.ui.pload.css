@@ -16,3 +16,15 @@
 .ui-pload-file-list {
 	list-style-type: none;
 }
+
+.ui-pload-filetype {
+	font-style: italic;	
+}
+
+.ui-pload-fileinfo {
+	text-decoration: line-through;
+}
+
+.ui-pload-invalid-text {
+	font-size: 0.67em;
+}
