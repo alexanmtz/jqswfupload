@@ -119,12 +119,10 @@ $.widget( "ui.pload", {
 			},
 			upload_progress_handler: function(file, bytes, total) {
 				self.progress.file = file.name;
-				self.progress.current += total - bytes;
+				self.progress.current += bytes;
 				var now = self.progress.current/self.progress.total;
-				console.info(now);
-				var percent = now.toPrecision(3)*100;
-				console.info( percent + '%');
-				console.debug(self.progress.file);
+				var percent = Math.round(now,3)*100;
+				op.uploadProgress.call(this, percent);
 				op.fileUploadProgress.call(this,file,bytes,total); 
 			},
 			upload_success_handler: function(file,data,response) {
@@ -132,6 +130,7 @@ $.widget( "ui.pload", {
 			},
 			upload_complete_handler: function(file) {
 				self.removeFromQueue(file);
+				self.progress.current += self.progress.fileSize;
 				self.startUpload(file);
 				if(!self.files.length) {
 					op.uploadComplete.call(this);
@@ -239,7 +238,7 @@ $.widget( "ui.pload", {
 		var type = '<span class="ui-pload-filetype">' + file.type + '</span>';
 		var size = '<span class="ui-pload-filesize">' + file.size + '</span> ';
 		var invalidText = invalid ? ' <div class="ui-pload-invalid-text ui-state-error ui-corner-all"><p><span class="ui-icon ui-icon-alert"></span>Maior que o limite de <strong>'+ this.options.rules[fileGroup].size  +' bytes</strong> por arquivo</p></div>' : '';
-		var deleteButton = '<a href="#" title="remove file" class="ui-pload-delete ui-state-default"><span class="ui-icon ui-icon-trash">Apagar</span></a> ';
+		var deleteButton = '<a href="#" title="remove file" class="ui-pload-delete ui-state-default ui-corner-all"><span class="ui-icon ui-icon-trash">Apagar</span></a> ';
 		$('<li id="'+file.id+'" '+ fileInvalid +'>'+ deleteButton +  '<div class="ui-pload-fileinfo">' + name + ' (' + type + ') ' + size + '</div>' +invalidText + '</li>').appendTo('.ui-pload-file-list');
 		this.deleteFileHandler(file.id);
 	},
