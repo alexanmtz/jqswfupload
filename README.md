@@ -10,6 +10,9 @@
 > Version 0.5
     * jQuery UI Theming of delete button and warnings
 	* file size limit
+> Version 0.6
+    * Callback for overall progress
+    * Integration with block UI at demo page	
 
 # About the plugin ?
 
