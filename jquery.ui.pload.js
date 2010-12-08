@@ -16,7 +16,7 @@
 $.widget( "ui.pload", {
 	swfu: null,
 	files: [],
-	medias: {'image':0, 'video':0},
+	medias: {},
 	progress: {
 		file: null,
 		fileSize: 0,
@@ -29,7 +29,7 @@ $.widget( "ui.pload", {
 		flashUrl: 'libs/swfupload.swf',
 		postParams: {},
 		buttonImageUrl: 'btn-pload-select.png',
-		buttonText: '<span class="text">Hello</span>',
+		buttonText: '<span class="text">Select File(s)</span>',
 		buttonWidth: 178,
 		buttonHeight: 30,
 		buttonTextTopPadding: 5, 
@@ -67,13 +67,17 @@ $.widget( "ui.pload", {
 		var op = self.options;
 		this.element.append('<div id="jquery-ui-pload-flash-button"></div>');
 		this.element.addClass('ui-widget ui-pload');
-
+		
+		$.each(self.options.rules, function(item,value){
+			self.medias[item] = 0;
+		});
+		
 		//header
 		var header = $('<div class="ui-widget-header ui-corner-tl ui-corner-tr ui-pload-file-counter"></div>');
 		header.appendTo(this.element);
 		var headerContent = '';
 		$.each(this.medias,function(item,value){
-			headerContent+= '<div class="ui-pload-type-'+ item +'"><span class="">'+item+'</span> <span class="ui-pload-current"></span> / <span class="ui-pload-total">'+ op.rules[item].limit +'</span></div>';			
+			headerContent+= '<div class="ui-pload-type ui-pload-type-'+ item +'"><span class="">'+item+'</span> <span class="ui-pload-current"></span> / <span class="ui-pload-total">'+ op.rules[item].limit +'</span></div>';			
 		});
 		$(headerContent).appendTo(header);
 		header.hide();

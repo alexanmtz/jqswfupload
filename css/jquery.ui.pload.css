@@ -8,6 +8,20 @@
  * http://docs.jquery.com/UI/
  */
 
+.ui-pload .ui-widget-header {
+	overflow: hidden;
+	padding: 5px;
+}
+
+.ui-pload .ui-widget-content {
+	clear: both;
+}
+
+.ui-pload-type {
+	float: left;
+	margin-right: 10px;
+}
+
 .ui-pload-delete {
 	float: left;
 	margin-right: 10px;
