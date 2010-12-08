@@ -19,6 +19,7 @@ $.widget( "ui.pload", {
 	medias: {'image':0, 'video':0},
 	progress: {
 		file: null,
+		fileSize: 0,
 		current: 0,
 		percent: 0,
 		total: 0
@@ -119,16 +120,17 @@ $.widget( "ui.pload", {
 				op.uploadStart.call(this,file);
 			},
 			upload_progress_handler: function(file, bytes, total) {
-				self.progress.file = file.name;
-				self.progress.current += bytes;
-				self.progress.percent = Math.ceil((self.progress.current / self.progress.total) * 100);
-				op.uploadProgress.call(this, self.progress.percent, self.progress.file);
+				self.progress.fileSize = total;
 				op.fileUploadProgress.call(this,file,bytes,total); 
 			},
 			upload_success_handler: function(file,data,response) {
 				op.fileUploadSuccess.call(this,file,data,response);
 			},
 			upload_complete_handler: function(file) {
+				self.progress.file = file.name;
+				self.progress.current += self.progress.fileSize;
+				self.progress.percent = Math.ceil((self.progress.current / self.progress.total) * 100);
+				op.uploadProgress.call(this, self.progress.percent, self.progress.file);
 				self.removeFromQueue(file);
 				self.startUpload(file);
 				if(!self.files.length) {
