@@ -1,3 +1,7 @@
 #main {
 	width: 700px;
 }
+
+#upload-progress span {
+	display: block;
+}

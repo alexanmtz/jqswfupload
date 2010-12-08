@@ -11,6 +11,7 @@
 	<script type="text/javascript" src="libs/jquery.effects.core.js"></script>
 	<script type="text/javascript" src="libs/jquery.ui.button"></script>
 	<script type="text/javascript" src="libs/jquery.ui.progressbar.js"></script>
+	<script type="text/javascript" src="libs/jquery.blockUI.js"></script>
 	<script type="text/javascript" src="libs/swfupload.js"></script>
 	<script type="text/javascript" src="jquery.ui.pload.js"></script>
 	<script type="text/javascript">
@@ -22,13 +23,29 @@
 				fileUploadSuccess: function(file,data,response){
 					$('#server-data pre').html(data);
 				},
+				uploadProgress: function(percent, currentFile) {
+					$('#upload-progress .file').html(currentFile);
+					$('#upload-progress .percent').html(percent + '%');
+					$('#progress-bar').progressbar({value: percent}); 
+				},
 				uploadComplete: function() {
-					console.info('all uploads completed');
+					$.unblockUI({ fadeOut: 200 }); 
+					$('#server-data pre').html('all files are uploaded');
+					$('#progress-bar').progressbar('disable');
 				}
 			});
 			
 			$('#start-upload').bind('click',function(){
 				uploadContainer.pload('startUpload');
+				if(!$('#upload-progress').length) {
+					$('<div id="upload-progress"><span class="file"></span><span class="percent"></span><div id="progress-bar"></div></div>').appendTo('body');	
+				}
+				$('#upload-progress').hide();
+				$.blockUI({ 
+		            theme:     true, // true to enable jQuery UI support,
+		            title: 'Upload progress', 
+		            message:  $('#upload-progress')
+    			});
 				return false;
 			});
 			

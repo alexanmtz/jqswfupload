@@ -122,7 +122,7 @@ $.widget( "ui.pload", {
 				self.progress.current += bytes;
 				var now = self.progress.current/self.progress.total;
 				var percent = Math.round(now,3)*100;
-				op.uploadProgress.call(this, percent);
+				op.uploadProgress.call(this, percent, self.progress.file);
 				op.fileUploadProgress.call(this,file,bytes,total); 
 			},
 			upload_success_handler: function(file,data,response) {
@@ -130,7 +130,6 @@ $.widget( "ui.pload", {
 			},
 			upload_complete_handler: function(file) {
 				self.removeFromQueue(file);
-				self.progress.current += self.progress.fileSize;
 				self.startUpload(file);
 				if(!self.files.length) {
 					op.uploadComplete.call(this);
