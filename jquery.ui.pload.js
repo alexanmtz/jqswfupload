@@ -20,6 +20,7 @@ $.widget( "ui.pload", {
 	progress: {
 		file: null,
 		current: 0,
+		percent: 0,
 		total: 0
 	},
 	options: {
@@ -121,8 +122,8 @@ $.widget( "ui.pload", {
 				self.progress.file = file.name;
 				self.progress.current += bytes;
 				var now = self.progress.current/self.progress.total;
-				var percent = Math.round(now,3)*100;
-				op.uploadProgress.call(this, percent, self.progress.file);
+				self.progress.percent = Math.round(now,3)*100;
+				op.uploadProgress.call(this, self.progress.percent, self.progress.file);
 				op.fileUploadProgress.call(this,file,bytes,total); 
 			},
 			upload_success_handler: function(file,data,response) {
@@ -132,6 +133,8 @@ $.widget( "ui.pload", {
 				self.removeFromQueue(file);
 				self.startUpload(file);
 				if(!self.files.length) {
+					// force progress complete for browser issues
+					self.progress.percent = 100;
 					op.uploadComplete.call(this);
 				}
 				op.fileUploadComplete.call(this,file);
