@@ -39,12 +39,12 @@ $.widget( "ui.pload", {
 			'image' : {
 				'fileTypes' : ['jpeg', 'jpg', 'png'],
 				'limit' : 6,
-				'size' : '9999999'
+				'size' : '200 KB'
 			},
 			'video' : {
 				'fileTypes' : ['mov'],
 				'limit' : 1,
-				'size' : '99999999'
+				'size' : '20 MB'
 			}
 		},
 		fileTypesDescription: 'choose file(s)',
@@ -164,6 +164,38 @@ $.widget( "ui.pload", {
 			return typesCont.substring(0, typesCont.length-2);
 		}
 	},
+	convertSize: function(n) {
+		var s = ['B', 'KB', 'MB', 'GB'];
+        if(typeof n == 'string'){
+			var sizeArray = n.split(' ');
+			var indexUnit = s.indexOf(sizeArray[1]);
+			return Math.round(sizeArray[0]*(Math.pow(1024,indexUnit)));
+			
+		} else {
+			if (n) {
+	            var e = Math.floor(Math.log(n) / Math.log(1024));
+	            var converted = (n / Math.pow(1024, Math.floor(e))).toFixed(2);
+				return Math.ceil(converted,2)  + ' ' + s[e];
+        	}
+	        else {
+	            return 0;
+	        }	
+		}
+		
+
+	},
+	fileSplit: function(word, len) {
+        var trunc = word;
+        m = trunc.match(/([^\/\\]+)\.(\w+)$/);
+        if (m[1].length > len) {
+            trunc = m[1].substring(0, len);
+            trunc = trunc.replace(/w+$/, '');
+            trunc += '(...)';
+            return trunc + '.' + m[2];
+        }
+        return trunc;
+
+	},
 	getFileType: function(file){
 		if (file.type ==""){
 			return file.name.match(/([^\/\\]+)\.(\w+)$/)[2];
@@ -209,7 +241,7 @@ $.widget( "ui.pload", {
 			$.each(key.fileTypes, function(j,value){
 				if(file.type==value) {
 					if(self.medias[item]  < key.limit) {
-						if(file.size < key.size) {
+						if(file.size < self.convertSize(key.size)) {
 							self.medias[item]++;
 							self.files.push(file);
 							self.insertFile(file, false);
@@ -241,10 +273,10 @@ $.widget( "ui.pload", {
 		$('.ui-widget-content').show();
 		var fileGroup = this.getFileGroup(file);
 		var fileInvalid = invalid ? 'class="ui-pload-file-invalid"' : 'class="ui-pload-file"'; 
-		var name = '<span class="ui-pload-filename">' + file.name + '</span> ';
+		var name = '<span class="ui-pload-filename">' + this.fileSplit(file.name, 20) + '</span> ';
 		var type = '<span class="ui-pload-filetype">' + file.type + '</span>';
-		var size = '<span class="ui-pload-filesize">' + file.size + '</span> ';
-		var invalidText = invalid ? ' <div class="ui-pload-invalid-text ui-state-error ui-corner-all"><p><span class="ui-icon ui-icon-alert"></span>Maior que o limite de <strong>'+ this.options.rules[fileGroup].size  +' bytes</strong> por arquivo</p></div>' : '';
+		var size = '<span class="ui-pload-filesize">' + this.convertSize(file.size) + '</span> ';
+		var invalidText = invalid ? ' <div class="ui-pload-invalid-text ui-state-error ui-corner-all"><p><span class="ui-icon ui-icon-alert"></span>Maior que o limite de <strong>'+ this.options.rules[fileGroup].size + '</strong> por arquivo</p></div>' : '';
 		var deleteButton = '<a href="#" title="remove file" class="ui-pload-delete ui-state-default ui-corner-all"><span class="ui-icon ui-icon-trash">Apagar</span></a> ';
 		$('<li id="'+file.id+'" '+ fileInvalid +'>'+ deleteButton +  '<div class="ui-pload-fileinfo">' + name + ' (' + type + ') ' + size + '</div>' +invalidText + '</li>').appendTo('.ui-pload-file-list');
 		this.deleteFileHandler(file.id);
@@ -256,7 +288,7 @@ $.widget( "ui.pload", {
 			self.swfu.cancelUpload(id);
 			var parent = $(this).parent().remove();
 			self.removeFromQueue(file);
-			if(parent.find('.ui-pload-file-invalid').length) {
+			if(!parent.hasClass('ui-pload-file-invalid')) {
 				self.decrementMediaCounter(file);
 				self.updateCounter();				
 			}

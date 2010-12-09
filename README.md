@@ -12,9 +12,17 @@
 	* file size limit
 > Version 0.6
     * Callback for overall progress
-    * Integration with block UI at demo page	
+    * Integration with block UI at demo page
+> Version 0.7
+	* Smart filesize convertion
+	* Handler overall progress per file
+	* Long filesize splitted
 
 # About the plugin ?
+
+This plugin is a multiple file upload jQuery-UI plugin. 
+
+# How it works
 
 This plugin it's a swfupload abstraction layer developed with the pattern of jQuery UI.
 
@@ -33,11 +41,11 @@ This plugin it's a swfupload abstraction layer developed with the pattern of jQu
 # Tested
 
 * Firefox 3+ Windows / MAC / Linux
-* IE 6, 7 Windows
+* IE 6, 7+ Windows
 
 # Issues
 
-* For now, the plugin only accepts image and video
+* Progress at Mac OS. This is a Flash Player issue at MAC OS
 
 
 # In a nutshell:
