@@ -12,7 +12,11 @@
 	* file size limit
 > Version 0.6
     * Callback for overall progress
-    * Integration with block UI at demo page	
+    * Integration with block UI at demo page
+> Version 0.7
+	* Smart filesize convertion
+	* Handler overall progress per file
+	* Long filesize splitted
 
 # About the plugin ?
 
