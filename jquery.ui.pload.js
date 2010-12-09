@@ -78,7 +78,7 @@ $.widget( "ui.pload", {
 		header.appendTo(this.element);
 		var headerContent = '';
 		$.each(this.medias,function(item,value){
-			headerContent+= '<div class="ui-pload-type ui-pload-type-'+ item +'"><span class="ui-pload-type-name">'+item+'</span> <span class="ui-pload-current"></span> / <span class="ui-pload-total">'+ op.rules[item].limit +'</span></div>';			
+			headerContent+= '<div class="ui-pload-type ui-pload-type-'+ item +'"><span class="ui-pload-type-name"><span>'+item+'</span></span> <span class="ui-pload-current"></span> / <span class="ui-pload-total">'+ op.rules[item].limit +'</span></div>';			
 		});
 		$(headerContent).appendTo(header);
 		header.hide();
