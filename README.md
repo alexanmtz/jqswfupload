@@ -20,7 +20,7 @@ This plugin is a multiple file upload jQuery-UI plugin.
 
 # How it works
 
-This plugin it's a swfupload abstration layer developed with the pattern of jQuery UI.
+This plugin it's a swfupload abstraction layer developed with the pattern of jQuery UI.
 
 # Features
 
@@ -46,7 +46,7 @@ This plugin it's a swfupload abstration layer developed with the pattern of jQue
 
 # In a nutshell:
      $(function(){
-        $("#vertical").pliad({
+        $("#vertical").pload({
 			url: '/upload/',
 			rules: {
 						'image' : {
