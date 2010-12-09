@@ -146,6 +146,29 @@ test('it should return a file extension, when a file named with dot', function()
 	equal(this.element.pload('getFileType',file),'jpg','returning file extension');
 });
 
+test('it should return the right dimensions where a byte filesize is given', function(){
+	var size = this.element.pload('convertSize', 34);
+	equal(size, '34 Bytes', 'The right filesize is given');
+	
+	var size2 = this.element.pload('convertSize', 3456);
+	equal(size2, '4 KB', 'The right filesize is given');
+	
+	var size3 = this.element.pload('convertSize', 12224343);
+	equal(size3, '12 MB', 'The right filesize is given');
+});
+
+test('it should return the size in bytes if a dimension is given', function(){
+	var size = this.element.pload('convertSize', '4 KB');
+	equal(size, 4096, 'the conversion from KB to bytes given unit to bytes is given');
+	
+	var size2 = this.element.pload('convertSize', '2 MB');
+	equal(size2, 2097152, 'the conversion in MB to bytes');
+	
+	var size3 = this.element.pload('convertSize', '1 GB');
+	equal(size3, 1073741824, 'the conversion from GB to byte');
+	
+});
+
 /*
 test('it should queue if not exceed the limit', function(){
 	var file1 = {

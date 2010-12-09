@@ -16,6 +16,10 @@
 
 # About the plugin ?
 
+This plugin is a multiple file upload jQuery-UI plugin. 
+
+# How it works
+
 This plugin it's a swfupload abstration layer developed with the pattern of jQuery UI.
 
 # Features
@@ -33,11 +37,11 @@ This plugin it's a swfupload abstration layer developed with the pattern of jQue
 # Tested
 
 * Firefox 3+ Windows / MAC / Linux
-* IE 6, 7 Windows
+* IE 6, 7+ Windows
 
 # Issues
 
-* For now, the plugin only accepts image and video
+* Progress at Mac OS. This is a Flash Player issue at MAC OS
 
 
 # In a nutshell:
