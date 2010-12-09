@@ -166,6 +166,16 @@ $.widget( "ui.pload", {
 	},
 	convertSize: function(n) {
 		var s = ['B', 'KB', 'MB', 'GB'];
+        if (!Array.indexOf) {
+            Array.prototype.indexOf = function(obj){
+                for (var i = 0; i < this.length; i++) {
+                    if (this[i] == obj) {
+                        return i;
+                    }
+                }
+                return -1;
+            }
+        }
         if(typeof n == 'string'){
 			var sizeArray = n.split(' ');
 			var indexUnit = s.indexOf(sizeArray[1]);
@@ -237,7 +247,6 @@ $.widget( "ui.pload", {
 		var self = this;
 		var rules = this.options.rules;
 		$.each(rules, function(item,key){
-			self.swfu.setFileQueueLimit(item.limit);
 			$.each(key.fileTypes, function(j,value){
 				if(file.type==value) {
 					if(self.medias[item]  < key.limit) {
@@ -311,10 +320,8 @@ $.widget( "ui.pload", {
 	// fix a mac os bug that return empty the filetype
 	getFile: function(id) {
 		var newFile = this.swfu.getFile(id);
-		if(!newFile.type) {
-			var fileType = this.getFileType(newFile);
-			newFile.type = fileType;					
-		}
+		var fileType = this.getFileType(newFile);
+		newFile.type = fileType;					
 		return newFile;
 	},
 	startUpload: function(file) {
