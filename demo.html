@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>jquery pload demo</title>
+	<title>jquery upload demo</title>
 	<link rel="stylesheet" href="css/jquery-ui-1.8.4.custom.css" type="text/css" media="screen">
 	<link rel="stylesheet" href="css/style.css" type="text/css" media="screen">
 	<link rel="stylesheet" href="css/jquery.ui.pload.css" type="text/css" media="screen">
@@ -54,8 +54,15 @@
 
 </head>
 <body>
+	<div id="change-theme">
+		<a href="javascript:(function(){if%20(!/Firefox[\/\s](\d+\.\d+)/.test(navigator.userAgent)){alert('Sorry,%20due%20to%20security%20restrictions,%20this%20tool%20only%20works%20in%20Firefox');%20return%20false;%20};%20if(window.jquitr){%20jquitr.addThemeRoller();%20}%20else{%20jquitr%20=%20{};%20jquitr.s%20=%20document.createElement('script');%20jquitr.s.src%20=%20'http://jqueryui.com/themeroller/developertool/developertool.js.php';%20document.getElementsByTagName('head')[0].appendChild(jquitr.s);}%20})();">Change theme</a>		
+	</div>
 	<div id="main">
-		<h2>demo page</h2>
+		<h2>Demo Page</h2>
+		<h3>JQuery-ui-upload</h3>
+		<p><em>Documentation:</em> <a href="https://github.com/alexanmtz/jQuery-ui-upload">Github Plugin page</a></p>
+		<p><em>Created by:</em> <a href="http://blog.alexandremagno.net">Alexandre Magno</a></p>
+		<p><em>Contibutions:</em> <a href="http://eltonokada.wordpress.com">Elton Okada</a></p>
 		<div id="jquery-ui-pload"></div>
 		<a href="#" id="start-upload">start upload</a>
 	</div>

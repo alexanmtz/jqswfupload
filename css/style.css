@@ -5,3 +5,14 @@
 #upload-progress span {
 	display: block;
 }
+
+#change-theme {
+	padding: 10px;
+	background-color: #D1D7F7;
+	border: 1px solid #8E94AF;
+	position: absolute;
+	top: 20px;
+	right: 20px;
+	width: 200px;
+	text-align: center;
+}

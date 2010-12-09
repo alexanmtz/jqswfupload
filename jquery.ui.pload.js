@@ -48,6 +48,7 @@ $.widget( "ui.pload", {
 			}
 		},
 		fileTypesDescription: 'choose file(s)',
+		fileSizeWarning: 'The limit of <strong>{limit}</strong> was reached',
 		flashLoaded: function(){},
 		fileDialogStart: function() {},
 		fileQueue: function() {},
@@ -285,7 +286,7 @@ $.widget( "ui.pload", {
 		var name = '<span class="ui-pload-filename">' + this.fileSplit(file.name, 20) + '</span> ';
 		var type = '<span class="ui-pload-filetype">' + file.type + '</span>';
 		var size = '<span class="ui-pload-filesize">' + this.convertSize(file.size) + '</span> ';
-		var invalidText = invalid ? ' <div class="ui-pload-invalid-text ui-state-error ui-corner-all"><p><span class="ui-icon ui-icon-alert"></span>Maior que o limite de <strong>'+ this.options.rules[fileGroup].size + '</strong> por arquivo</p></div>' : '';
+		var invalidText = invalid ? ' <div class="ui-pload-invalid-text ui-state-error ui-corner-all"><p><span class="ui-icon ui-icon-alert"></span>' + this.options.fileSizeWarning.replace('{limit}', this.options.rules[fileGroup].size) + '</p></div>' : '';
 		var deleteButton = '<a href="#" title="remove file" class="ui-pload-delete ui-state-default ui-corner-all"><span class="ui-icon ui-icon-trash">Apagar</span></a> ';
 		$('<li id="'+file.id+'" '+ fileInvalid +'>'+ deleteButton +  '<div class="ui-pload-fileinfo">' + name + ' (' + type + ') ' + size + '</div>' +invalidText + '</li>').appendTo('.ui-pload-file-list');
 		this.deleteFileHandler(file.id);
