@@ -148,7 +148,7 @@ test('it should return a file extension, when a file named with dot', function()
 
 test('it should return the right dimensions where a byte filesize is given', function(){
 	var size = this.element.pload('convertSize', 34);
-	equal(size, '34 Bytes', 'The right filesize is given');
+	equal(size, '34 B', 'The right filesize is given');
 	
 	var size2 = this.element.pload('convertSize', 3456);
 	equal(size2, '4 KB', 'The right filesize is given');
@@ -167,6 +167,13 @@ test('it should return the size in bytes if a dimension is given', function(){
 	var size3 = this.element.pload('convertSize', '1 GB');
 	equal(size3, 1073741824, 'the conversion from GB to byte');
 	
+});
+
+test('it should return the file name truncated', function() {
+	var file = 'abcdefghijklmnopqrsxtzabcdefghijklmn.jpg'
+	var fileTruncated = this.element.pload('fileSplit', file, 5);
+	
+	equal(fileTruncated, 'abcde(...).jpg', 'the file name was truncated correctly');
 });
 
 /*

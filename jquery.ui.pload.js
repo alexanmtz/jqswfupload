@@ -165,7 +165,7 @@ $.widget( "ui.pload", {
 		}
 	},
 	convertSize: function(n) {
-		var s = ['Bytes', 'KB', 'MB', 'GB'];
+		var s = ['B', 'KB', 'MB', 'GB'];
         if(typeof n == 'string'){
 			var sizeArray = n.split(' ');
 			var indexUnit = s.indexOf(sizeArray[1]);
@@ -186,7 +186,6 @@ $.widget( "ui.pload", {
 	},
 	fileSplit: function(word, len) {
         var trunc = word;
-        len = 20;
         m = trunc.match(/([^\/\\]+)\.(\w+)$/);
         if (m[1].length > len) {
             trunc = m[1].substring(0, len);
@@ -274,7 +273,7 @@ $.widget( "ui.pload", {
 		$('.ui-widget-content').show();
 		var fileGroup = this.getFileGroup(file);
 		var fileInvalid = invalid ? 'class="ui-pload-file-invalid"' : 'class="ui-pload-file"'; 
-		var name = '<span class="ui-pload-filename">' + file.name + '</span> ';
+		var name = '<span class="ui-pload-filename">' + this.fileSplit(file.name, 20) + '</span> ';
 		var type = '<span class="ui-pload-filetype">' + file.type + '</span>';
 		var size = '<span class="ui-pload-filesize">' + this.convertSize(file.size) + '</span> ';
 		var invalidText = invalid ? ' <div class="ui-pload-invalid-text ui-state-error ui-corner-all"><p><span class="ui-icon ui-icon-alert"></span>Maior que o limite de <strong>'+ this.options.rules[fileGroup].size + '</strong> por arquivo</p></div>' : '';
