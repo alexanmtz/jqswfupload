@@ -20,7 +20,7 @@
 > Version 0.8
 	* Update documentation
 	* Internet Explorer issues (Queue Handler)
-> Version 1.0beta
+> Version 0.9
 	* Complete documentation
 	* License
 	* renamed all the references to jQuery-ui-upload
