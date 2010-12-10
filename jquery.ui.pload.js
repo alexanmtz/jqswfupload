@@ -16,6 +16,7 @@
 $.widget( "ui.pload", {
 	swfu: null,
 	files: [],
+	fileData: {"videos":[],"fotos":[]},
 	medias: {},
 	progress: {
 		file: null,
@@ -39,10 +40,10 @@ $.widget( "ui.pload", {
 			'image' : {
 				'fileTypes' : ['jpeg', 'jpg', 'png'],
 				'limit' : 6,
-				'size' : '200 KB'
+				'size' : '3 MB'
 			},
 			'video' : {
-				'fileTypes' : ['mov'],
+				'fileTypes' : ['mov','3gp'],
 				'limit' : 1,
 				'size' : '20 MB'
 			}
@@ -129,6 +130,14 @@ $.widget( "ui.pload", {
 				op.fileUploadProgress.call(this,file,bytes,total); 
 			},
 			upload_success_handler: function(file,data,response) {
+			  var dataJson = JSON.parse(data);
+        if(dataJson.fotos!=''){
+          self.fileData.fotos.push(dataJson.fotos[0])
+        }
+        if(dataJson.videos!=''){
+          self.fileData.videos.push(dataJson.videos[0])
+        }
+			  
 				op.fileUploadSuccess.call(this,file,data,response);
 			},
 			upload_complete_handler: function(file) {
@@ -141,7 +150,7 @@ $.widget( "ui.pload", {
 				if(!self.files.length) {
 					// force progress complete for browser issues
 					self.progress.percent = 100;
-					op.uploadComplete.call(this);
+					op.uploadComplete.call(this,self.fileData);
 				}
 				op.fileUploadComplete.call(this,file);
 			},
