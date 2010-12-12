@@ -16,7 +16,7 @@
 $.widget( "ui.pload", {
 	swfu: null,
 	files: [],
-	fileData: {"videos":[],"fotos":[]},
+	fileData: [],
 	medias: {},
 	progress: {
 		file: null,
@@ -130,14 +130,14 @@ $.widget( "ui.pload", {
 				op.fileUploadProgress.call(this,file,bytes,total); 
 			},
 			upload_success_handler: function(file,data,response) {
-			  var dataJson = JSON.parse(data);
-        if(dataJson.fotos!=''){
-          self.fileData.fotos.push(dataJson.fotos[0])
-        }
-        if(dataJson.videos!=''){
-          self.fileData.videos.push(dataJson.videos[0])
-        }
-			  
+				try {
+					var dataJSON = $.parseJSON(data);
+				} catch(e) {
+					console.info(e);
+				}
+              
+				self.fileData.push(dataJSON);	
+				
 				op.fileUploadSuccess.call(this,file,data,response);
 			},
 			upload_complete_handler: function(file) {

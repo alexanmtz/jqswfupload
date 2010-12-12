@@ -1,8 +1,9 @@
 <?php
-
-$file = $_FILES['Filedata'];
-var_dump($file);
-echo 'Script called sucessfull, above the extra params you sent: <br/>';
-var_dump($_POST);
-
+include 'JSON.php';
+header('Content-type: application/json');
+$files = $_FILES['Filedata'];
+$json_obj = new Moxiecode_JSON();
+/* encode */
+$json = $json_obj->encode($files);
+echo $json;
 ?>

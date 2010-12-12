@@ -28,10 +28,12 @@
 					$('#upload-progress .percent').html(percent + '%');
 					$('#progress-bar').progressbar({value: percent}); 
 				},
-				uploadComplete: function() {
+				uploadComplete: function(data) {
 					$.unblockUI({ fadeOut: 200 }); 
 					$('#server-data pre').html('all files are uploaded');
 					$('#progress-bar').progressbar('disable');
+					console.info(data);
+					
 				}
 			});
 			
