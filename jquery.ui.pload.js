@@ -220,7 +220,7 @@ $.widget( "ui.pload", {
 		if (file.type ==""){
 			return file.name.match(/([^\/\\]+)\.(\w+)$/)[2];
 		}else{
-			return file.type.substring(1, file.type.length);
+      return file.type.toLowerCase();
 		}
 	},
 	decrementMediaCounter: function(file) {
