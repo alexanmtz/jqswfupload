@@ -125,7 +125,7 @@ test('get all the filetypes groups and mixing in one', function() {
 test('it should return a file extension, given an file object with an already defined type', function(){
 	var file = {
 		name:"obj_teste",
-		type:".jpg"
+		type:"jpg"
 	};
 	equal(this.element.pload('getFileType',file),'jpg','returning file extension');
 });
