@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>jquery upload demo</title>
+	<title>jquery-ui-upload demo</title>
 	<link rel="stylesheet" href="css/jquery-ui-1.8.4.custom.css" type="text/css" media="screen">
 	<link rel="stylesheet" href="css/style.css" type="text/css" media="screen">
-	<link rel="stylesheet" href="css/jquery.ui.pload.css" type="text/css" media="screen">
+	<link rel="stylesheet" href="css/jquery.ui.upload.css" type="text/css" media="screen">
 	<script type="text/javascript" src="libs/jquery-1.4.2.js"></script>
 	<script type="text/javascript" src="libs/jquery.ui.core.js"></script>
 	<script type="text/javascript" src="libs/jquery.ui.widget.js"></script>
@@ -13,11 +13,11 @@
 	<script type="text/javascript" src="libs/jquery.ui.progressbar.js"></script>
 	<script type="text/javascript" src="libs/jquery.blockUI.js"></script>
 	<script type="text/javascript" src="libs/swfupload.js"></script>
-	<script type="text/javascript" src="jquery.ui.pload.js"></script>
+	<script type="text/javascript" src="jquery.ui.upload.js"></script>
 	<script type="text/javascript">
 		$(function(){
-			var uploadContainer = $('#jquery-ui-pload');
-			uploadContainer.pload({
+			var uploadContainer = $('#jquery-ui-upload');
+			uploadContainer.upload({
 				url: 'upload.php',
 				debug: true,
 				fileUploadSuccess: function(file,data,response){
@@ -38,7 +38,7 @@
 			});
 			
 			$('#start-upload').bind('click',function(){
-				uploadContainer.pload('startUpload');
+				uploadContainer.upload('startUpload');
 				if(!$('#upload-progress').length) {
 					$('<div id="upload-progress"><span class="file"></span><span class="percent"></span><div id="progress-bar"></div></div>').appendTo('body');	
 				}
@@ -65,8 +65,8 @@
 		<p><em>Documentation:</em> <a href="https://github.com/alexanmtz/jQuery-ui-upload">Github Plugin page</a></p>
 		<p><em>Created by:</em> <a href="http://blog.alexandremagno.net">Alexandre Magno</a></p>
 		<p><em>Contibutions:</em> <a href="http://eltonokada.wordpress.com">Elton Okada</a></p>
-		<div id="jquery-ui-pload"></div>
-		<input type=button id="start-upload" value="inicio">
+		<div id="jquery-ui-upload"></div>
+		<input type="button" id="start-upload" value="start upload">
 	</div>
 	<div id="server-data"><pre></pre></div>
 </body>

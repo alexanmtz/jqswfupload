@@ -1,5 +1,5 @@
 /*
- * jQuery UI pload @VERSION
+ * jQuery UI upload @VERSION
  *
  * Copyright 2010, AUTHORS.txt (http://jqueryui.com/about)
  * Dual licensed under the MIT or GPL Version 2 licenses.
@@ -8,37 +8,37 @@
  * http://docs.jquery.com/UI/
  */
 
-.ui-pload .ui-widget-header {
+.ui-upload .ui-widget-header {
 	overflow: hidden;
 	padding: 5px;
 }
 
-.ui-pload .ui-widget-content {
+.ui-upload .ui-widget-content {
 	clear: both;
 }
 
-.ui-pload-type {
+.ui-upload-type {
 	float: left;
 	margin-right: 10px;
 }
 
-.ui-pload-delete {
+.ui-upload-delete {
 	float: left;
 	margin-right: 10px;
 }
 
-.ui-pload-file-list {
+.ui-upload-file-list {
 	list-style-type: none;
 }
 
-.ui-pload-filetype {
+.ui-upload-filetype {
 	font-style: italic;	
 }
 
-.ui-pload-file-invalid .ui-pload-fileinfo {
+.ui-upload-file-invalid .ui-upload-fileinfo {
 	text-decoration: line-through;
 }
 
-.ui-pload-invalid-text {
+.ui-upload-invalid-text {
 	font-size: 0.67em;
 }

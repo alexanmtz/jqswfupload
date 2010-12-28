@@ -13,7 +13,7 @@
  *   jquery.ui.button.js
  */
 (function( $, undefined ) {
-$.widget( "ui.pload", {
+$.widget( "ui.upload", {
 	swfu: null,
 	files: [],
 	fileData: [],
@@ -30,11 +30,11 @@ $.widget( "ui.pload", {
 		flashUrl: 'libs/swfupload.swf',
 		postParams: {},
 		buttonImageUrl: 'btn-pload-select.png',
-		buttonText: '<span class="text">Select File(s)</span>',
+		buttonText: '<span class="jquery-ui-upload-text">Select File(s)</span>',
 		buttonWidth: 178,
 		buttonHeight: 30,
 		buttonTextTopPadding: 5, 
-		style: '.text {color: black; font-weight: bold; font-size: 16pt; text-align:center;margin-top:15px;}',
+		style: '.jquery-ui-upload-text {color: black; font-weight: bold; font-size: 16pt; text-align:center;margin-top:15px;}',
 		multiple: true,
 		rules: {
 			'image' : {
@@ -67,32 +67,32 @@ $.widget( "ui.pload", {
 	_create: function() {
 		var self = this;
 		var op = self.options;
-		this.element.append('<div id="jquery-ui-pload-flash-button"></div>');
-		this.element.addClass('ui-widget ui-pload');
+		this.element.append('<div id="jquery-ui-upload-flash-button"></div>');
+		this.element.addClass('ui-widget ui-upload');
 		
 		$.each(self.options.rules, function(item,value){
 			self.medias[item] = 0;
 		});
 		
 		//header
-		var header = $('<div class="ui-widget-header ui-corner-tl ui-corner-tr ui-pload-file-counter"></div>');
+		var header = $('<div class="ui-widget-header ui-corner-tl ui-corner-tr ui-upload-file-counter"></div>');
 		header.appendTo(this.element);
 		var headerContent = '';
 		$.each(this.medias,function(item,value){
-			headerContent+= '<div class="ui-pload-type ui-pload-type-'+ item +'"><span class="ui-pload-type-name"><span>'+item+'</span></span> <span class="ui-pload-current"></span> / <span class="ui-pload-total">'+ op.rules[item].limit +'</span></div>';			
+			headerContent+= '<div class="ui-upload-type ui-upload-type-'+ item +'"><span class="ui-upload-type-name"><span>'+item+'</span></span> <span class="ui-upload-current"></span> / <span class="ui-upload-total">'+ op.rules[item].limit +'</span></div>';			
 		});
 		$(headerContent).appendTo(header);
 		header.hide();
 		
 		//content
 		$('<div class="ui-widget-content ui-corner-bl ui-corner-br"></div>').appendTo(this.element).hide();
-		$('<ul class="ui-pload-file-list"></ul>').prependTo('.ui-widget-content');
+		$('<ul class="ui-upload-file-list"></ul>').prependTo('.ui-widget-content');
 		
 		var swfOptions = {
 	        post_params: op.postParams,
 			upload_url: op.url,
 	        flash_url: op.flashUrl,
-			button_placeholder_id: 'jquery-ui-pload-flash-button',
+			button_placeholder_id: 'jquery-ui-upload-flash-button',
 			button_text : op.buttonText,
 			button_text_style : op.style, 
 			button_text_top_padding: op.buttonTextTopPadding,
@@ -291,13 +291,13 @@ $.widget( "ui.pload", {
 	insertFile: function(file, invalid) {
 		$('.ui-widget-content').show();
 		var fileGroup = this.getFileGroup(file);
-		var fileInvalid = invalid ? 'class="ui-pload-file-invalid"' : 'class="ui-pload-file"'; 
-		var name = '<span class="ui-pload-filename">' + this.fileSplit(file.name, 20) + '</span> ';
-		var type = '<span class="ui-pload-filetype">' + file.type + '</span>';
-		var size = '<span class="ui-pload-filesize">' + this.convertSize(file.size) + '</span> ';
-		var invalidText = invalid ? ' <div class="ui-pload-invalid-text ui-state-error ui-corner-all"><p><span class="ui-icon ui-icon-alert"></span>' + this.options.fileSizeWarning.replace('{limit}', this.options.rules[fileGroup].size) + '</p></div>' : '';
-		var deleteButton = '<a href="#" title="remove file" class="ui-pload-delete ui-state-default ui-corner-all"><span class="ui-icon ui-icon-trash">Apagar</span></a> ';
-		$('<li id="'+file.id+'" '+ fileInvalid +'>'+ deleteButton +  '<div class="ui-pload-fileinfo">' + name + ' (' + type + ') ' + size + '</div>' +invalidText + '</li>').appendTo('.ui-pload-file-list');
+		var fileInvalid = invalid ? 'class="ui-pload-file-invalid"' : 'class="ui-upload-file"'; 
+		var name = '<span class="ui-upload-filename">' + this.fileSplit(file.name, 20) + '</span> ';
+		var type = '<span class="ui-upload-filetype">' + file.type + '</span>';
+		var size = '<span class="ui-upload-filesize">' + this.convertSize(file.size) + '</span> ';
+		var invalidText = invalid ? ' <div class="ui-upload-invalid-text ui-state-error ui-corner-all"><p><span class="ui-icon ui-icon-alert"></span>' + this.options.fileSizeWarning.replace('{limit}', this.options.rules[fileGroup].size) + '</p></div>' : '';
+		var deleteButton = '<a href="#" title="remove file" class="ui-upload-delete ui-state-default ui-corner-all"><span class="ui-icon ui-icon-trash">Apagar</span></a> ';
+		$('<li id="'+file.id+'" '+ fileInvalid +'>'+ deleteButton +  '<div class="ui-upload-fileinfo">' + name + ' (' + type + ') ' + size + '</div>' +invalidText + '</li>').appendTo('.ui-upload-file-list');
 		this.deleteFileHandler(file.id);
 	},
 	deleteFileHandler: function(id) {
@@ -307,7 +307,7 @@ $.widget( "ui.pload", {
 			self.swfu.cancelUpload(id);
 			var parent = $(this).parent().remove();
 			self.removeFromQueue(file);
-			if(!parent.hasClass('ui-pload-file-invalid')) {
+			if(!parent.hasClass('ui-upload-file-invalid')) {
 				self.decrementMediaCounter(file);
 				self.updateCounter();				
 			}
@@ -319,9 +319,9 @@ $.widget( "ui.pload", {
 		});
 	},
 	updateCounter: function() {
-		$('.ui-pload-file-counter',this.element).show();
+		$('.ui-upload-file-counter',this.element).show();
 		$.each(this.medias, function(item,value){
-			$('.ui-pload-current','.ui-pload-type-'+item).html(value);
+			$('.ui-upload-current','.ui-upload-type-'+item).html(value);
 		});
 	},
 	getFiles: function() {
