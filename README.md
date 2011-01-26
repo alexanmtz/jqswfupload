@@ -1,34 +1,43 @@
 # jQuery-UI-upload
-> Version 0.2
-	* handler the file delete from queue
-> Version 0.3
-    * Callbacks for file upload success and file upload complete
-    * Additional post parameters throught postParams
-> Version 0.4
-    * Callback for all files completed
-    * Fixed delete handlers bug
-> Version 0.5
-    * jQuery UI Theming of delete button and warnings
-	* file size limit
-> Version 0.6
-    * Callback for overall progress
-    * Integration with block UI at demo page
-> Version 0.7
-	* Smart filesize convertion
-	* Handler overall progress per file
-	* Long filesize splitted
-> Version 0.8
-	* Update documentation
-	* Internet Explorer issues (Queue Handler)
+
+> Version 1.0
+	* A uploadComplete callback now receive a array of the data returned of each file uploaded
+	* Documentation about File Groups
+
 > Version 0.9
 	* Complete documentation
 	* License
 	* renamed all the references to jQuery-ui-upload
 	* Warning message pass as options
 	* Theme roller link at demo page
-> Version 1.0
-	* A uploadComplete callback now receive a array of the data returned of each file uploaded
-	* Documentation about File Groups
+
+> Version 0.8
+	* Update documentation
+	* Internet Explorer issues (Queue Handler)
+
+> Version 0.7
+	* Smart filesize convertion
+	* Handler overall progress per file
+	* Long filesize splitted
+
+> Version 0.6
+	* Callback for overall progress
+	* Integration with block UI at demo page
+
+> Version 0.5
+	* jQuery UI Theming of delete button and warnings
+	* file size limit
+
+> Version 0.4
+	* Callback for all files completed
+	* Fixed delete handlers bug
+
+> Version 0.3
+	* Callbacks for file upload success and file upload complete
+	* Additional post parameters throught postParams
+
+> Version 0.2
+	* handler the file delete from queue
 
 # About the plugin ?
 
