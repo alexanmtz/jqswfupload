@@ -60,48 +60,12 @@ test('the target selector contains a flash instance', function(){
 	ok(SWFUpload.movieCount > 0 ,"there's a movies started");
 });
 
-/*
-test('swfupload loaded', function(){
-	expect(1);
-	$('#jquery-ui-pload').upload({
-		flashLoaded: function() {
-			ok(true, 'swfupload loaded');
-		}
-	});
-});
-*/
-
 test('get the swfupload instance', function() {
  	//this.element.pload();
 	var instance = this.element.upload('getInstance');
 	equals(instance.getSetting('button_placeholder_id'), 'jquery-ui-upload-flash-button', 'obteu a instancia atual');
 });
 
-/*
-test('dialog start handler', function() {
-	expect(1);
-	$('#jquery-ui-upload').upload({
-		fileDialogStart: function() {
-			ok(true, 'open file dialog');
-		}
-	});
-	//$('#jquery-ui-upload object').trigger('click');
-});
-
-
-test('Upload started without any file', function(){
-    expect(1);
-	$('#jquery-ui-upload').pload({
-		fileDialogComplete: function(fselected) {
-			ok(fselected, 'one file enter in the queue');
-		},
-		uploadError: function(file,error,msg) {
-			alert(error);
-		}
-	});
-	$('#jquery-ui-pload').pload('getInstance').callFlash("startUpload", 'bla');
-});
-*/
 
 test('get all the filetypes groups and mixing in one', function() {
 	
@@ -175,99 +139,3 @@ test('it should return the file name truncated', function() {
 	
 	equal(fileTruncated, 'abcde(...).jpg', 'the file name was truncated correctly');
 });
-
-/*
-test('it should queue if not exceed the limit', function(){
-	var file1 = {
-		id: 'SWFUpload_0_1',
-		type: 'jpg',
-		index: 1,
-		name: 'image1.jpg'
-	};
-	this.element.pload('queueFiles', file1);
-
-	var file2 = {
-		id: 'SWFUpload_0_2',
-		type: 'jpg',
-		index: 2,
-		name: 'image2.jpg'
-	};
-	this.element.pload('queueFiles', file2);	
-
-	var expected = [
-		{
-			id: 'SWFUpload_0_1',
-			type: 'jpg',
-			index: 1,
-			name: 'image1.jpg'
-		},
-		{
-			id: 'SWFUpload_0_2',
-			type: 'jpg',
-			index: 2,
-			name: 'image2.jpg'
-		}
-	];
-	
-	deepEqual(this.element.pload('getFiles'), expected, 'create a queue with two files');
-});
-
-test('it should not enqueue if exceed the video limit', function(){
-
-	var filex = {
-		id: 'SWFUpload_0_1',
-		type: 'mov',
-		index: 1,
-		name: 'movie1.mov'
-	};
-	this.element.pload('queueFiles', filex);
-
-	var filey = {
-		id: 'SWFUpload_0_2',
-		type: 'mov',
-		index: 2,
-		name: 'movie2.mov'
-	};
-	this.element.pload('queueFiles', filey);	
-	
-	var expected = [
-	{
-		id: 'SWFUpload_0_1',
-		type: 'mov',
-		index: 1,
-		name: 'movie1.mov'
-	}];
-	deepEqual(this.element.pload('getFiles'), expected, 'create a queue with one video');
-});
-
-
-test('it should not enqueue if exceed the image limit', function(){
-	var el = $('#jquery-ui-pload');
-	el.pload();
-
-	for(i=0;i<7;i++){
-		file = {
-			id: 'SWFUpload_0_'+i,
-			type: 'gif',
-			index: i,
-			name: 'pic'+i+'.gif'
-		};
-		el.pload('queueFiles', file);			
-	}	
-	
-	var expected = [];
-	for(i=0;i<6;i++){
-		file = {
-			id: 'SWFUpload_0_'+i,
-			type: 'gif',
-			index: i,
-			name: 'pic'+i+'.gif'
-		};
-		expected.push(file);			
-	}
-
-	deepEqual(el.pload('getFiles'), expected, 'create a queue with two files');
-	
-});
-
-*/

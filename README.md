@@ -26,6 +26,9 @@
 	* renamed all the references to jQuery-ui-upload
 	* Warning message pass as options
 	* Theme roller link at demo page
+> Version 1.0
+	* A uploadComplete callback now receive a array of the data returned of each file uploaded
+	* Documentation about File Groups
 
 # About the plugin ?
 
@@ -41,7 +44,6 @@ This plugin it's a swfupload abstraction layer developed with the pattern of jQu
 * Complete jQuery UI Interface
 * Validation and handlers based in file groups
 
-
 # Requirements
 
 * SWFUpload
@@ -54,8 +56,12 @@ This plugin it's a swfupload abstraction layer developed with the pattern of jQu
 
 # Issues
 
-* Progress at Mac OS. This is a Flash Player issue at MAC OS
+* File progress don't work properly at Mac OS. Whatever, the plugin has their own implementation of overall progress that can be used.
 
+# File Groups
+
+This feature it's when this plugin differ from other uploads scripts. When you are dealing with images, documents and other types, generally they a group of formats. With this plugin you can make rules for each type and even create custom types with their own implementation.
+See the example below:
 
 # In a nutshell:
      $(function(){
@@ -221,9 +227,18 @@ This plugin it's a swfupload abstraction layer developed with the pattern of jQu
 
 ## uploadComplete
 * type: Function
-* description: Callback fired when all uploads are completed
+* parameters: fileData
+* description: Callback fired when all uploads are completed, you have access a array of data returned throught fileData. The plugin assumes that the return it's a JSON Object.
 
 # Methods
+
+## startUpload
+* description: This method start the upload process and can be used in any event,
+* example:
+$(function(){
+	uploadInstance = $('#upload').upload();
+	uploadInstance.upload('startUpload');
+});
 
 ## convertSize
 * parameters: number

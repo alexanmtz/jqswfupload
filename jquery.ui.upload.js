@@ -132,12 +132,11 @@ $.widget( "ui.upload", {
 			upload_success_handler: function(file,data,response) {
 				try {
 					var dataJSON = $.parseJSON(data);
+					self.fileData.push(dataJSON);
 				} catch(e) {
 					console.info(e);
 				}
               
-				self.fileData.push(dataJSON);	
-				
 				op.fileUploadSuccess.call(this,file,data,response);
 			},
 			upload_complete_handler: function(file) {
