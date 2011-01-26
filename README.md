@@ -41,7 +41,11 @@
 
 # About the plugin ?
 
-This plugin is a multiple file upload jQuery-UI plugin. 
+This plugin is a multiple file upload jQuery-UI plugin.
+
+# Demo
+
+You can see a demo at http://www.alexandremagno.net/jquery-ui-upload/demo.html 
 
 # How it works
 
