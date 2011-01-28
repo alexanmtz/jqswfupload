@@ -1,17 +1,36 @@
-/*
- * jQuery UI Upload @VERSION
+/**
  *
- * Copyright 2010, AUTHORS.txt (http://jqueryui.com/about)
- * Dual licensed under the MIT or GPL Version 2 licenses.
- * http://jquery.org/license
- *
- *
- * Depends:
+ * @name jQuery-ui-upload
+ * @namespace jQuery
+ * @author Alexandre Magno (http://blog.alexandremagno.net)
+ * @version 1.1
+ * @description jQuery UI widget to handle multiple upload
+ * @requires
  *   jquery.ui.core.js
  *   jquery.ui.widget.js
  *   jquery.ui.progressbar.js
- *   jquery.ui.button.js
+ *   swfupload
+ * @example  
+ * $(function(){
+ *   $("#vertical").upload({
+ *       url: '/upload/',
+ *       rules: {
+ *                   'image' : {
+ *                       'fileTypes' : ['jpeg', 'jpg', 'png'],
+ *                       'limit' : 6,
+ *                       'size' : '200 KB'
+ *                   },
+ *                   'video' : {
+ *                       'fileTypes' : ['mov'],
+ *                       'limit' : 1,
+ *                       'size' : '20 MB'
+ *                   }
+ *               },
+ *   });
+ * });
+ * @returns {Object} jQuery
  */
+
 (function( $, undefined ) {
 $.widget( "ui.upload", {
 	swfu: null,

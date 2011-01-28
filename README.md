@@ -1,5 +1,8 @@
 # jQuery-UI-upload
 
+> Version 1.1
+	* Removed the jQuery UI header as requested
+
 > Version 1.0
 	* A uploadComplete callback now receive a array of the data returned of each file uploaded
 	* Documentation about File Groups
