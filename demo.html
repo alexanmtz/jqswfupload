@@ -13,11 +13,11 @@
 	<script type="text/javascript" src="libs/jquery.ui.progressbar.js"></script>
 	<script type="text/javascript" src="libs/jquery.blockUI.js"></script>
 	<script type="text/javascript" src="libs/swfupload.js"></script>
-	<script type="text/javascript" src="jquery.ui.upload.js"></script>
+	<script type="text/javascript" src="jquery.jqswfupload.js"></script>
 	<script type="text/javascript">
 		$(function(){
 			var uploadContainer = $('#jquery-ui-upload');
-			uploadContainer.upload({
+			uploadContainer.jqswfupload({
 				url: 'upload.php',
 				debug: true,
 				fileUploadSuccess: function(file,data,response){
@@ -38,7 +38,7 @@
 			});
 			
 			$('#start-upload').bind('click',function(){
-				uploadContainer.upload('startUpload');
+				uploadContainer.jqswfupload('startUpload');
 				if(!$('#upload-progress').length) {
 					$('<div id="upload-progress"><span class="file"></span><span class="percent"></span><div id="progress-bar"></div></div>').appendTo('body');	
 				}
@@ -61,7 +61,7 @@
 	</div>
 	<div id="main">
 		<h2>Demo Page</h2>
-		<h3>JQuery-ui-upload</h3>
+		<h3>JQuery ui jqswfupload</h3>
 		<p><em>Documentation:</em> <a href="https://github.com/alexanmtz/jQuery-ui-upload">Github Plugin page</a></p>
 		<p><em>Created by:</em> <a href="http://blog.alexandremagno.net">Alexandre Magno</a></p>
 		<p><em>Contibutions:</em> <a href="http://eltonokada.wordpress.com">Elton Okada</a></p>

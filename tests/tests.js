@@ -21,14 +21,12 @@ module("dependencies and initialization checking",{
 
 test("check if all dependencies is loading", function() {
 	ok($.ui.progressbar, 'progres bar ok');
-	ok($.ui.button, 'button ok');
 	equals(typeof this.swfupload,'object', 'swfupload loaded');
 	
 });
 
 test("force upload start without file", function() {
 	ok($.ui.progressbar, 'progres bar ok');
-	ok($.ui.button, 'button ok');
 	equals(typeof this.swfupload,'object', 'swfupload loaded');
 	
 });
@@ -42,16 +40,16 @@ module("core tests",{
 			'type' : 'file',
 			'name' : 'Filedata'
 		}).appendTo('#swfupload');
-		this.element = $('#jquery-ui-upload').upload();			
+		this.element = $('#jquery-ui-upload').jqswfupload();			
 	},
 	teardown: function() {
-		this.element.upload('destroy');
+		this.element.jqswfupload('destroy');
 	}
 });
 
 test("plugin started", function(){
 	
-	ok($.ui.upload, 'the main plugin was instanciaded');
+	ok($.ui.jqswfupload, 'the main plugin was instanciaded');
 	
 });
 
@@ -62,17 +60,17 @@ test('the target selector contains a flash instance', function(){
 
 test('get the swfupload instance', function() {
  	//this.element.pload();
-	var instance = this.element.upload('getInstance');
+	var instance = this.element.jqswfupload('getInstance');
 	equals(instance.getSetting('button_placeholder_id'), 'jquery-ui-upload-flash-button', 'obteu a instancia atual');
 });
 
 
 test('get all the filetypes groups and mixing in one', function() {
 	
-	var result = this.element.upload('concatTypes','*.*');
+	var result = this.element.jqswfupload('concatTypes','*.*');
 	equal(result, '*.*', 'the file types return the same');
 	
-	result = this.element.upload('concatTypes',{
+	result = this.element.jqswfupload('concatTypes',{
 		'image' : {
 			'fileTypes' : ['jpeg', 'png'],
 			'limit' : 10
@@ -91,7 +89,7 @@ test('it should return a file extension, given an file object with an already de
 		name:"obj_teste",
 		type:"jpg"
 	};
-	equal(this.element.upload('getFileType',file),'jpg','returning file extension');
+	equal(this.element.jqswfupload('getFileType',file),'jpg','returning file extension');
 });
 
 test('it should return a file extension, with a file without type property', function(){
@@ -99,7 +97,7 @@ test('it should return a file extension, with a file without type property', fun
 		name:"obj_teste.jpg",
 		type: ""
 	}
-	equal(this.element.upload('getFileType',file),'jpg','returning file extension');
+	equal(this.element.jqswfupload('getFileType',file),'jpg','returning file extension');
 });
 
 test('it should return a file extension, when a file named with dot', function(){
@@ -107,35 +105,35 @@ test('it should return a file extension, when a file named with dot', function()
 		name:"obj_teste.jpg.jpg",
 		type: ""
 	};
-	equal(this.element.upload('getFileType',file),'jpg','returning file extension');
+	equal(this.element.jqswfupload('getFileType',file),'jpg','returning file extension');
 });
 
 test('it should return the right dimensions where a byte filesize is given', function(){
-	var size = this.element.upload('convertSize', 34);
+	var size = this.element.jqswfupload('convertSize', 34);
 	equal(size, '34 B', 'The right filesize is given');
 	
-	var size2 = this.element.upload('convertSize', 3456);
+	var size2 = this.element.jqswfupload('convertSize', 3456);
 	equal(size2, '4 KB', 'The right filesize is given');
 	
-	var size3 = this.element.upload('convertSize', 12224343);
+	var size3 = this.element.jqswfupload('convertSize', 12224343);
 	equal(size3, '12 MB', 'The right filesize is given');
 });
 
 test('it should return the size in bytes if a dimension is given', function(){
-	var size = this.element.upload('convertSize', '4 KB');
+	var size = this.element.jqswfupload('convertSize', '4 KB');
 	equal(size, 4096, 'the conversion from KB to bytes given unit to bytes is given');
 	
-	var size2 = this.element.upload('convertSize', '2 MB');
+	var size2 = this.element.jqswfupload('convertSize', '2 MB');
 	equal(size2, 2097152, 'the conversion in MB to bytes');
 	
-	var size3 = this.element.upload('convertSize', '1 GB');
+	var size3 = this.element.jqswfupload('convertSize', '1 GB');
 	equal(size3, 1073741824, 'the conversion from GB to byte');
 	
 });
 
 test('it should return the file name truncated', function() {
 	var file = 'abcdefghijklmnopqrsxtzabcdefghijklmn.jpg'
-	var fileTruncated = this.element.upload('fileSplit', file, 5);
+	var fileTruncated = this.element.jqswfupload('fileSplit', file, 5);
 	
 	equal(fileTruncated, 'abcde(...).jpg', 'the file name was truncated correctly');
 });

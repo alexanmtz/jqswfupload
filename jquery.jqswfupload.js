@@ -1,6 +1,6 @@
 /**
  *
- * @name jQuery-ui-upload
+ * @name jquswfupload
  * @namespace jQuery
  * @author Alexandre Magno (http://blog.alexandremagno.net)
  * @version 1.1
@@ -12,7 +12,7 @@
  *   swfupload
  * @example  
  * $(function(){
- *   $("#vertical").upload({
+ *   $("#vertical").jqswfupload({
  *       url: '/upload/',
  *       rules: {
  *                   'image' : {
@@ -32,7 +32,7 @@
  */
 
 (function( $, undefined ) {
-$.widget( "ui.upload", {
+$.widget( "ui.jqswfupload", {
 	swfu: null,
 	files: [],
 	fileData: [],
