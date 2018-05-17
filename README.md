@@ -46,10 +46,6 @@
 
 This plugin is a multiple file upload jQuery-UI plugin.
 
-# Demo
-
-You can [see a demo](http://www.alexandremagno.net/jquery-ui-upload/demo.html "Demo Page") 
-
 # How it works
 
 This plugin it's a swfupload abstraction layer developed with the pattern of jQuery UI.
